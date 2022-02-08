@@ -1,0 +1,23 @@
+.book{
+    width: minmax(300px,30%);
+    height: 500px;
+    flex-direction: column;
+    display: flex;
+    background: azure;
+}
+.book .text
+{
+    height: min-content;
+}
+.book img
+{
+
+    max-height: 300px;
+    object-fit: contain;
+    margin:auto 0px ;
+}
+.booklist{
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, [col-start] minmax(350px,1fr) [col-end]);
+}
