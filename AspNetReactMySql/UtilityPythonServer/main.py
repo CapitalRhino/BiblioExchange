@@ -25,12 +25,3 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-# f = open("file.txt", "r")
-# imageString = f.read()
-# f.close()
-# image = base64.urlsafe_b64decode(imageString)
-
-# decoded = cv2.imdecode(np.frombuffer(image, np.uint8), -1)
-
-# image_decode = pyzbar.decode(decoded)
-# print(image_decode[0].data)
