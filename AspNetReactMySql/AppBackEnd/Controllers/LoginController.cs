@@ -40,9 +40,10 @@ namespace AppBackEnd.Controllers
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _config.GetSection("TokenSettings").Value));
             var creds = new SigningCredentials(key,SecurityAlgorithms.HmacSha256Signature);
+            var expire_in = 300;
             var token = new JwtSecurityToken(
                 claims:claims,
-                expires:DateTime.Now.AddHours(2),
+                expire_in:DateTime.Now.AddHours(2),
                 signingCredentials: creds);
             string jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
