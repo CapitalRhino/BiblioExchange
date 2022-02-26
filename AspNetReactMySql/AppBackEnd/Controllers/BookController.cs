@@ -1,5 +1,6 @@
 using AppBackEnd.Data;
 using AppBackEnd.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -15,7 +16,7 @@ namespace AppBackEnd.Controllers
         {
             Context = context;
         }
-        [HttpGet("all")]
+        [HttpGet("all"),Authorize]
         public IEnumerable<Book> All()
         {
             return Context.Books.ToList();

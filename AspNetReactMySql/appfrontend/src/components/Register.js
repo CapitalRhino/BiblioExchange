@@ -1,20 +1,33 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect,useContext } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from './api/axios';
+import axios from '..//axios';
 import { Link } from "react-router-dom";
+import '../Styles/Register.css';
+import AuthContext from "../AuthProvider";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const REGISTER_URL = '/register';
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const PHONE_REGEX = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
+const REGISTER_URL = '/Auth/Register';
 
 const Register = () => {
+    const { setAuth } = useContext(AuthContext);
     const userRef = useRef();
     const errRef = useRef();
 
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
+
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [emailFocus, setEmialFocus] = useState(false);
+
+    const [phone, setPhone] = useState('');
+    const [validPhone, setValidPhone] = useState(false);
+    const [phoneFocus, setPhoneFocus] = useState(false);
 
     const [pwd, setPwd] = useState('');
     const [validPwd, setValidPwd] = useState(false);
@@ -36,30 +49,43 @@ const Register = () => {
     }, [user])
 
     useEffect(() => {
+        setValidEmail(EMAIL_REGEX.test(email))
+    }, [email])
+    
+    useEffect(() => {
+        setValidPhone(PHONE_REGEX.test(phone))
+    }, [phone])
+    
+
+    useEffect(() => {
         setValidPwd(PWD_REGEX.test(pwd));
         setValidMatch(pwd === matchPwd);
     }, [pwd, matchPwd])
-
+    
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd, matchPwd])
+    }, [user,email,phone, pwd, matchPwd])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!(validName&&validPwd)) {
+        if (!(validName&&validPwd&&validEmail&&validPhone)) {
             setErrMsg("Invalid Entry");
             return;
         }
         try {
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ user, pwd }),
+                JSON.stringify({Username: user,Email:email,Phone:phone,PasswordHashed: pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
+                    // withCredentials: true
                 }
             );
+            const accessToken = response?.data?.accessToken;
+            setAuth({ accessToken });
             setSuccess(true);
             setUser('');
+            setEmail('');
+            setPhone('');
             setPwd('');
             setMatchPwd('');
         } catch (err) {
@@ -77,14 +103,14 @@ const Register = () => {
     return (
         <>
             {success ? (
-                <section>
+                <section className="Register">
                     <h1>Success!</h1>
                     <p>
-                        <Link href="/Login">Login</Link>
+                        <Link to="/Login">Login</Link>
                     </p>
                 </section>
             ) : (
-                <section>
+                <section className="Register">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Register</h1>
                     <form onSubmit={handleSubmit}>
@@ -113,6 +139,51 @@ const Register = () => {
                             Letters, numbers, underscores, hyphens allowed.
                         </p>
 
+                        <label htmlFor="email">
+                            Email:
+                            <FontAwesomeIcon icon={faCheck} className={validEmail ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validEmail || !email ? "hide" : "invalid"} />
+                        </label>
+                        <input
+                            type="text"
+                            id="email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            required
+                            aria-invalid={validEmail ? "false" : "true"}
+                            aria-describedby="uidnote"
+                            onFocus={() => setEmialFocus(true)}
+                            onBlur={() => setEmialFocus(false)}
+                        />
+                        <p id="uidnote" className={emailFocus && email && !validEmail ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            Must begin with a letter.<br />
+                            Letters, numbers, underscores, hyphens allowed.<br />
+                            Must countain @ and .
+                        </p>
+
+                        <label htmlFor="phone">
+                            Phone number:
+                            <FontAwesomeIcon icon={faCheck} className={validPhone ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validPhone || !phone ? "hide" : "invalid"} />
+                        </label>
+                        <input
+                            type="text"
+                            id="phone"
+                            onChange={(e) => setPhone(e.target.value)}
+                            value={phone}
+                            required
+                            aria-invalid={validPhone ? "false" : "true"}
+                            aria-describedby="uidnote"
+                            onFocus={() => setPhoneFocus(true)}
+                            onBlur={() => setPhoneFocus(false)}
+                        />
+                        <p id="uidnote" className={phoneFocus && phone && !validPhone ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            Must begin with a letter.<br />
+                            Letters, numbers, underscores, hyphens allowed.<br />
+                            Must countain @ and .
+                        </p>
 
                         <label htmlFor="password">
                             Password:
@@ -159,12 +230,12 @@ const Register = () => {
                             Must match the first password input field.
                         </p>
 
-                        <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
+                        <button disabled={!(validName &&validEmail && validPhone && validPwd && validMatch) ? true : false}>Sign Up</button>
                     </form>
                     <p>
                         Already registered?<br />
                         <span className="line">
-                        <Link href="/Login">Login</Link>
+                        <Link to="/Login">Login</Link>
                         </span>
                     </p>
                 </section>

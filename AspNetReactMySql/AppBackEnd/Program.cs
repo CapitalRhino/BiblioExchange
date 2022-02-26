@@ -1,8 +1,13 @@
+using System.Text;
 using AppBackEnd.Controllers;
 using AppBackEnd.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+
 string MyOrginsPolicy = "CORSPolicy";
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options=>
@@ -38,8 +43,35 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(swaggerGenOptions=>{
     swaggerGenOptions.SwaggerDoc("v1",new OpenApiInfo{Title = "Asp.Net React MySQl",Version="v1"});
+
+    swaggerGenOptions.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    swaggerGenOptions.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 builder.Services.AddDbContext<AppDbContext>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenSettings"]))
+    };
+});
 
 var app = builder.Build();
 
@@ -52,10 +84,8 @@ app.UseSwaggerUI(swaggerUIOptions=>
 });
 app.UseRouting();
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors(MyOrginsPolicy);
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action}/{id?}");
-
+app.MapControllers();
 app.Run();
