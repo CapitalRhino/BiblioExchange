@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using AppBackEnd.Data;
 using AppBackEnd.Models;
 using Microsoft.AspNetCore.Identity;
@@ -36,8 +37,31 @@ namespace AppBackEnd.Controllers
             PasswordVerificationResult verifyPassword=Hasher.VerifyHashedPassword(identityUser,identityUser.PasswordHash,request.PasswordHashed);
             if(verifyPassword==PasswordVerificationResult.Failed)return BadRequest("Wrong password");
             Token token = await CreateToken(identityUser);
+            // string refreshToken = await GenerateRefreshToken(identityUser);
+            // Response.Cookies.Append(
+            //     "Refresh token",
+            //     refreshToken,
+            //     new CookieOptions{Expires = DateTime.Now.AddDays(1),HttpOnly = true,Secure = true}
+            // );
             return Ok(token);
         }
+        public async Task<string> GenerateRefreshToken(IdentityUser user)
+    {
+        var randomNumber = new byte[32];
+        string token = "";
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(randomNumber);
+            token =  Convert.ToBase64String(randomNumber);
+        }
+        IdentityUserToken<string> refreshToken = new IdentityUserToken<string>(); 
+        refreshToken.Name = user.UserName;
+        refreshToken.UserId = user.Id;
+        refreshToken.LoginProvider = user.UserName;
+        refreshToken.Value = token;
+        Context.UserTokens.Add(refreshToken);
+        return token;
+    }
         private async Task<Token> CreateToken(IdentityUser user)
         {
             var userRoles =  await _userManager.GetRolesAsync(user);
@@ -56,7 +80,7 @@ namespace AppBackEnd.Controllers
             // var expire_in = 300;
             var token = new JwtSecurityToken(
                 claims:claims,
-                expires:DateTime.Now.AddHours(2),
+                expires:DateTime.Now.AddHours(1),
                 signingCredentials: creds);
             string jwt = new JwtSecurityTokenHandler().WriteToken(token);
             Token jwtToken = new Token();
@@ -78,6 +102,27 @@ namespace AppBackEnd.Controllers
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
             await _userManager.AddToRoleAsync(user, UserRoles.User);
+            Token token = await CreateToken(user);
+            return Ok(token);
+        }
+        [HttpPost("RegisterAdmin")]
+        public async Task<ActionResult<IdentityUser>> RegisterAdmin(UserDtoRegister request) 
+        {
+            IdentityUser checkForExistingUser = Context.Users.FirstOrDefault(x => request.Username == x.UserName);
+            if(checkForExistingUser!=null)return BadRequest("Username with this username already exist");
+            IdentityUser user = new IdentityUser();
+            user.UserName = request.Username;
+            user.Email = request.Email;
+            user.PhoneNumber = request.Phone;
+            user.PasswordHash = Hasher.HashPassword(user,request.PasswordHashed);
+            await Context.Users.AddAsync(user);
+            await Context.SaveChangesAsync();
+            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+            await _userManager.AddToRoleAsync(user, UserRoles.User);
+            await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             Token token = await CreateToken(user);
             return Ok(token);
         }

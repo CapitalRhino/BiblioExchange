@@ -16,7 +16,7 @@ namespace AppBackEnd.Controllers
         {
             Context = context;
         }
-        [HttpGet("all"),Authorize]
+        [HttpGet("all"),Authorize(Roles = UserRoles.User)]
         public IEnumerable<Book> All()
         {
             return Context.Books.ToList();
@@ -27,7 +27,7 @@ namespace AppBackEnd.Controllers
             Book book = Context.Books.FirstOrDefault(x => x.Id == id);
             return book;
         }
-        [HttpPost()]
+        [HttpPost(),Authorize(Roles = UserRoles.Admin)]
         public bool Post(Book book)
         {
             try
