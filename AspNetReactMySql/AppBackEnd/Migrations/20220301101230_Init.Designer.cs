@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppBackEnd.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220301073729_Init")]
+    [Migration("20220301101230_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,6 +118,7 @@ namespace AppBackEnd.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BiblioUserId")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Expires")
@@ -125,10 +126,6 @@ namespace AppBackEnd.Migrations
 
                     b.Property<DateTime?>("Revoke")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -273,7 +270,9 @@ namespace AppBackEnd.Migrations
                 {
                     b.HasOne("AppBackEnd.Models.BiblioUser", null)
                         .WithMany("RefreshTokens")
-                        .HasForeignKey("BiblioUserId");
+                        .HasForeignKey("BiblioUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

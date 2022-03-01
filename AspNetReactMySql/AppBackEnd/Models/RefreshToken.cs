@@ -8,7 +8,7 @@ namespace AppBackEnd.Models
         public int Id { get; set; }
         [Required]
         [ForeignKey("BiblioUser")]
-        public string UserId { get; set; }
+        public string BiblioUserId { get; set; }
         [Required]
         public string Value { get; set; }
         [Required]

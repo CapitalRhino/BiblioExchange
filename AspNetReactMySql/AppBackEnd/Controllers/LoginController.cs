@@ -19,6 +19,7 @@ namespace AppBackEnd.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
         private const int RefreshTokenActiveDays = 2;
+        private const int AccessTokenActive=5;
 
         public UserController(AppDbContext context,
         RoleManager<IdentityRole> roleManager,
@@ -43,7 +44,7 @@ namespace AppBackEnd.Controllers
             Response.Cookies.Append(
                 "Token",
                 refreshToken,
-                new CookieOptions { Expires = DateTime.Now.AddDays(1), HttpOnly = true, Secure = true }
+                new CookieOptions { Expires = DateTime.Now.AddHours(RefreshTokenActiveDays), HttpOnly = true, Secure = true }
             );
             return Ok(token);
         }
@@ -58,7 +59,7 @@ namespace AppBackEnd.Controllers
                 token = Convert.ToBase64String(randomNumber);
             }
             RefreshToken refreshToken = new RefreshToken();
-            refreshToken.UserId = user.Id;
+            refreshToken.BiblioUserId = user.Id;
             refreshToken.Value = token;
             refreshToken.Expires = DateTime.Now.AddHours(RefreshTokenActiveDays);
             refreshToken.Revoke = null;
@@ -84,11 +85,12 @@ namespace AppBackEnd.Controllers
             // var expire_in = 300;
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddHours(1),
+                expires: DateTime.Now.AddMinutes(AccessTokenActive),
                 signingCredentials: creds);
             string jwt = new JwtSecurityTokenHandler().WriteToken(token);
             Token jwtToken = new Token();
             jwtToken.AccessToken = jwt;
+            jwtToken.Roles = userRoles;
             return jwtToken;
         }
         [HttpPost("Register")]
@@ -106,8 +108,7 @@ namespace AppBackEnd.Controllers
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
             await _userManager.AddToRoleAsync(user, UserRoles.User);
-            Token token = await CreateToken(user);
-            return Ok(token);
+            return Ok("Success");
         }
         [HttpPost("RegisterAdmin")]
         public async Task<ActionResult<BiblioUser>> RegisterAdmin(UserDtoRegister request)
@@ -127,8 +128,7 @@ namespace AppBackEnd.Controllers
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
             await _userManager.AddToRoleAsync(user, UserRoles.User);
             await _userManager.AddToRoleAsync(user, UserRoles.Admin);
-            Token token = await CreateToken(user);
-            return Ok(token);
+            return Ok("Success");
         }
         [HttpPost]
         [Route("RefreshToken")]
@@ -136,11 +136,19 @@ namespace AppBackEnd.Controllers
         {
 
             string refresh = Request.Cookies["Token"];
-            if(refresh==null) return BadRequest("Not cookie found");
-            var found = Context.RefreshTokens.FirstOrDefault(x=>x.Value == refresh);
-            if(found==null)return BadRequest("Invalid refresh token");
-            if(found.IsActive)return BadRequest("Expired or revoke token");
-            Token token = await CreateToken(Context.Users.FirstOrDefault(x=>x.Id==found.UserId));
+            if (refresh == null) return BadRequest("Not cookie found");
+            var found = Context.RefreshTokens.FirstOrDefault(x => x.Value == refresh);
+            if (found == null) return BadRequest("Invalid refresh token");
+            if (found.IsActive) return BadRequest("Expired or revoke token");
+            var user =Context.Users.FirstOrDefault(x => x.Id == found.BiblioUserId);
+            Token token = await CreateToken(user);
+            found.Revoke = DateTime.Now;
+            string refreshToken = await GenerateRefreshToken(user);
+            Response.Cookies.Append(
+                "Token",
+                refreshToken,
+                new CookieOptions { Expires = DateTime.Now.AddHours(RefreshTokenActiveDays), HttpOnly = true, Secure = true }
+            );
             return Ok(token);
         }
     }
