@@ -5,9 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppBackEnd.Data
 {
-    public class AppDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
+    public class AppDbContext : IdentityDbContext<BiblioUser,IdentityRole,string>
     {
         public DbSet<Book> Books { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 

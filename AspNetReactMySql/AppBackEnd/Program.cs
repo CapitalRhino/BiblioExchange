@@ -1,6 +1,7 @@
 using System.Text;
 using AppBackEnd.Controllers;
 using AppBackEnd.Data;
+using AppBackEnd.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,7 @@ builder.Services.AddDbContextPool<AppDbContext>(options =>
             var connetionString = builder.Configuration.GetConnectionString("DefaultConnection");
             options.UseMySql(connetionString, ServerVersion.AutoDetect(connetionString));
         });
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<BiblioUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;

@@ -11,76 +11,80 @@ namespace AppBackEnd.Controllers
 {
     [ApiController]
     [Route("Auth")]
-    public class UserController:ControllerBase
+    public class UserController : ControllerBase
     {
-        private AppDbContext Context { get;  set; }
-        public PasswordHasher<IdentityUser> Hasher { get; set; }
-        private readonly UserManager<IdentityUser> _userManager;
+        private AppDbContext Context { get; set; }
+        public PasswordHasher<BiblioUser> Hasher { get; set; }
+        private readonly UserManager<BiblioUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
+        private const int RefreshTokenActiveDays = 2;
+
         public UserController(AppDbContext context,
         RoleManager<IdentityRole> roleManager,
-        UserManager<IdentityUser> userManager,
+        UserManager<BiblioUser> userManager,
         IConfiguration configuration)
         {
             Context = context;
-            Hasher = new PasswordHasher<IdentityUser>();
+            Hasher = new PasswordHasher<BiblioUser>();
             _userManager = userManager;
-            _roleManager =roleManager;
+            _roleManager = roleManager;
             _config = configuration;
         }
         [HttpPost("Login")]
-        public async Task<ActionResult<IdentityUser>> Login(UserDToLogin request)
+        public async Task<ActionResult<BiblioUser>> Login(UserDToLogin request)
         {
-            IdentityUser identityUser = Context.Users.FirstOrDefault(x => request.Username == x.UserName);
-            if(identityUser== null) return BadRequest("User not found");
-            PasswordVerificationResult verifyPassword=Hasher.VerifyHashedPassword(identityUser,identityUser.PasswordHash,request.PasswordHashed);
-            if(verifyPassword==PasswordVerificationResult.Failed)return BadRequest("Wrong password");
-            Token token = await CreateToken(identityUser);
-            // string refreshToken = await GenerateRefreshToken(identityUser);
-            // Response.Cookies.Append(
-            //     "Refresh token",
-            //     refreshToken,
-            //     new CookieOptions{Expires = DateTime.Now.AddDays(1),HttpOnly = true,Secure = true}
-            // );
+            BiblioUser BiblioUser = Context.Users.FirstOrDefault(x => request.Username == x.UserName);
+            if (BiblioUser == null) return BadRequest("User not found");
+            PasswordVerificationResult verifyPassword = Hasher.VerifyHashedPassword(BiblioUser, BiblioUser.PasswordHash, request.PasswordHashed);
+            if (verifyPassword == PasswordVerificationResult.Failed) return BadRequest("Wrong password");
+            Token token = await CreateToken(BiblioUser);
+            string refreshToken = await GenerateRefreshToken(BiblioUser);
+            Response.Cookies.Append(
+                "Token",
+                refreshToken,
+                new CookieOptions { Expires = DateTime.Now.AddDays(1), HttpOnly = true, Secure = true }
+            );
             return Ok(token);
         }
-        public async Task<string> GenerateRefreshToken(IdentityUser user)
-    {
-        var randomNumber = new byte[32];
-        string token = "";
-        using (var rng = RandomNumberGenerator.Create())
+
+        private async Task<string> GenerateRefreshToken(BiblioUser user)
         {
-            rng.GetBytes(randomNumber);
-            token =  Convert.ToBase64String(randomNumber);
+            var randomNumber = new byte[32];
+            string token = "";
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                token = Convert.ToBase64String(randomNumber);
+            }
+            RefreshToken refreshToken = new RefreshToken();
+            refreshToken.UserId = user.Id;
+            refreshToken.Value = token;
+            refreshToken.Expires = DateTime.Now.AddHours(RefreshTokenActiveDays);
+            refreshToken.Revoke = null;
+            Context.RefreshTokens.Add(refreshToken);
+            Context.SaveChanges();
+            return token;
         }
-        IdentityUserToken<string> refreshToken = new IdentityUserToken<string>(); 
-        refreshToken.Name = user.UserName;
-        refreshToken.UserId = user.Id;
-        refreshToken.LoginProvider = user.UserName;
-        refreshToken.Value = token;
-        Context.UserTokens.Add(refreshToken);
-        return token;
-    }
-        private async Task<Token> CreateToken(IdentityUser user)
+        private async Task<Token> CreateToken(BiblioUser user)
         {
-            var userRoles =  await _userManager.GetRolesAsync(user);
+            var userRoles = await _userManager.GetRolesAsync(user);
             List<Claim> claims = new List<Claim>
             {
                 new Claim("ClaimTypes.Name",user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             foreach (var userRole in userRoles)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, userRole));
-                }
+            {
+                claims.Add(new Claim(ClaimTypes.Role, userRole));
+            }
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _config.GetSection("TokenSettings").Value));
-            var creds = new SigningCredentials(key,SecurityAlgorithms.HmacSha256Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             // var expire_in = 300;
             var token = new JwtSecurityToken(
-                claims:claims,
-                expires:DateTime.Now.AddHours(1),
+                claims: claims,
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds);
             string jwt = new JwtSecurityTokenHandler().WriteToken(token);
             Token jwtToken = new Token();
@@ -88,15 +92,15 @@ namespace AppBackEnd.Controllers
             return jwtToken;
         }
         [HttpPost("Register")]
-        public async Task<ActionResult<IdentityUser>> Register(UserDtoRegister request) 
+        public async Task<ActionResult<BiblioUser>> Register(UserDtoRegister request)
         {
-            IdentityUser checkForExistingUser = Context.Users.FirstOrDefault(x => request.Username == x.UserName);
-            if(checkForExistingUser!=null)return BadRequest("Username with this username already exist");
-            IdentityUser user = new IdentityUser();
+            BiblioUser checkForExistingUser = Context.Users.FirstOrDefault(x => request.Username == x.UserName);
+            if (checkForExistingUser != null) return BadRequest("Username with this username already exist");
+            BiblioUser user = new BiblioUser();
             user.UserName = request.Username;
             user.Email = request.Email;
             user.PhoneNumber = request.Phone;
-            user.PasswordHash = Hasher.HashPassword(user,request.PasswordHashed);
+            user.PasswordHash = Hasher.HashPassword(user, request.PasswordHashed);
             await Context.Users.AddAsync(user);
             await Context.SaveChangesAsync();
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))
@@ -106,15 +110,15 @@ namespace AppBackEnd.Controllers
             return Ok(token);
         }
         [HttpPost("RegisterAdmin")]
-        public async Task<ActionResult<IdentityUser>> RegisterAdmin(UserDtoRegister request) 
+        public async Task<ActionResult<BiblioUser>> RegisterAdmin(UserDtoRegister request)
         {
-            IdentityUser checkForExistingUser = Context.Users.FirstOrDefault(x => request.Username == x.UserName);
-            if(checkForExistingUser!=null)return BadRequest("Username with this username already exist");
-            IdentityUser user = new IdentityUser();
+            BiblioUser checkForExistingUser = Context.Users.FirstOrDefault(x => request.Username == x.UserName);
+            if (checkForExistingUser != null) return BadRequest("Username with this username already exist");
+            BiblioUser user = new BiblioUser();
             user.UserName = request.Username;
             user.Email = request.Email;
             user.PhoneNumber = request.Phone;
-            user.PasswordHash = Hasher.HashPassword(user,request.PasswordHashed);
+            user.PasswordHash = Hasher.HashPassword(user, request.PasswordHashed);
             await Context.Users.AddAsync(user);
             await Context.SaveChangesAsync();
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))
@@ -124,6 +128,19 @@ namespace AppBackEnd.Controllers
             await _userManager.AddToRoleAsync(user, UserRoles.User);
             await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             Token token = await CreateToken(user);
+            return Ok(token);
+        }
+        [HttpPost]
+        [Route("RefreshToken")]
+        public async Task<ActionResult<BiblioUser>> RefreshToken()
+        {
+
+            string refresh = Request.Cookies["Token"];
+            if(refresh==null) return BadRequest("Not cookie found");
+            var found = Context.RefreshTokens.FirstOrDefault(x=>x.Value == refresh);
+            if(found==null)return BadRequest("Invalid refresh token");
+            if(found.IsActive)return BadRequest("Expired or revoke token");
+            Token token = await CreateToken(Context.Users.FirstOrDefault(x=>x.Id==found.UserId));
             return Ok(token);
         }
     }
