@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import useAuth from '../Auth/useAuth';
 import axios from '../axios';
 const BOOKS_URL = 'Book/all'
@@ -10,9 +10,10 @@ export default function useGetBook() {
         {
             try {
                 const books = await axios.get(BOOKS_URL,{
-                headers:{'Authorization':'bearer '+auth.accessToken}})
-                console.log(books.status)
-                setBooks(books.data);
+                headers:{'Authorization':'bearer '+auth.accessToken}
+            })
+                console.log(books?.status)
+                setBooks(books?.data);
             }catch (err) {
                 console.log(err);
                 if (!err?.response) {

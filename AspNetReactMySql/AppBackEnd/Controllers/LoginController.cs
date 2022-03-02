@@ -19,7 +19,7 @@ namespace AppBackEnd.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
         private const int RefreshTokenActiveDays = 2;
-        private const int AccessTokenActive=5;
+        private const int AccessTokenActive=1;
 
         public UserController(AppDbContext context,
         RoleManager<IdentityRole> roleManager,
@@ -147,7 +147,12 @@ namespace AppBackEnd.Controllers
             Response.Cookies.Append(
                 "Token",
                 refreshToken,
-                new CookieOptions { Expires = DateTime.Now.AddHours(RefreshTokenActiveDays), HttpOnly = true, Secure = true }
+                new CookieOptions {
+                     Expires = DateTime.Now.AddHours(RefreshTokenActiveDays),
+                      HttpOnly = true ,
+                      Secure = true,
+                      SameSite =SameSiteMode.Lax
+                      }
             );
             return Ok(token);
         }

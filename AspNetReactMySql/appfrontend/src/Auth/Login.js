@@ -35,7 +35,7 @@ const Login = () => {
                 JSON.stringify({ Username: user, PasswordHashed: pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
-                    // withCredentials: true
+                    withCredentials: true
                 }
             );
             const data = response?.data

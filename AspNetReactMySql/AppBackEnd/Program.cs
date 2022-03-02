@@ -15,10 +15,10 @@ builder.Services.AddCors(options=>
     options.AddPolicy(MyOrginsPolicy,
         builders=>
         {
-            builders.AllowAnyMethod().AllowAnyHeader()
+            builders.AllowAnyMethod().AllowAnyHeader().AllowCredentials()
             // .AllowAnyOrigin();
             .WithOrigins(
-            "http://localhost:3000","http://192.168.1.4:3000");
+            "http://localhost:3000","https://localhost:3000");
         }
 ));
 
