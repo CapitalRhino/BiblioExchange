@@ -1,0 +1,30 @@
+header
+{
+    height:10px;
+}
+nav
+{
+    display: flex;
+    flex-direction: row;
+    position: fixed; 
+    width: 100%;
+    justify-content: space-between;
+    background: royalblue;
+}
+nav ul
+{
+    display: flex;
+    flex-direction: row;
+
+}
+nav li{
+    list-style-type: none;
+}
+nav a{
+    text-decoration: none;
+    padding: 0 3px;
+}
+header button
+{
+    position: relative;
+}

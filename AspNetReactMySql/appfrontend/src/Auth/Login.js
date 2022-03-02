@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 
-import axios from '../axios';
+import axios from '../api/axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from './useAuth';
 const LOGIN_URL = '/Auth/Login';

@@ -1,31 +1,20 @@
 import { useState,useEffect } from 'react';
-import useAuth from '../Auth/useAuth';
-import axios from '../axios';
+import useProtectedAxios from '../Auth/useProtectedAxios';
 const BOOKS_URL = 'Book/all'
+
 export default function useGetBook() {
     const [books, setBooks] = useState([]);
-    const{auth} = useAuth();
+    const protectedAxios = useProtectedAxios();
     useEffect(() => {
         const fetchData = async()=>
         {
             try {
-                const books = await axios.get(BOOKS_URL,{
-                headers:{'Authorization':'bearer '+auth.accessToken}
-            })
+                const books = await protectedAxios.get(BOOKS_URL)
                 console.log(books?.status)
                 setBooks(books?.data);
             }catch (err) {
-                console.log(err);
-                if (!err?.response) {
-                    console.log('Server problem');
-                } else if (err.response?.status === 401) {
-                    console.log(401);
-                } else {
-                    console.log(err.response.status);
-                }
-            }
-            
-            
+                
+            } 
         };
         fetchData();
     }, []);

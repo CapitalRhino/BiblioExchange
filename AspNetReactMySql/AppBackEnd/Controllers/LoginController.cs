@@ -151,10 +151,11 @@ namespace AppBackEnd.Controllers
                      Expires = DateTime.Now.AddHours(RefreshTokenActiveDays),
                       HttpOnly = true ,
                       Secure = true,
-                      SameSite =SameSiteMode.Lax
+                      SameSite =SameSiteMode.None
                       }
             );
             return Ok(token);
         }
+        
     }
 }

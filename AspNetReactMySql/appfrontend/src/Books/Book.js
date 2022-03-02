@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../site.css'
+import '../Styles/site.css'
 function Book(props) {
     const [name, setName] = useState(props.name);
     const [author, setAuthor] = useState(props.author);

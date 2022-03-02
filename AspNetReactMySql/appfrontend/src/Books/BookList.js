@@ -1,11 +1,24 @@
-import React from 'react';
-import useGetBook from './useGetBook';
+import React,{useState,useEffect} from 'react';
 import Book from './Book';
-
+import useProtectedAxios from '../Auth/useProtectedAxios';
+const BOOKS_URL = 'Book/all'
 
 
 function BookList() {
-    const [books,setBooks] = useGetBook();
+    const [books, setBooks] = useState([]);
+    const protectedAxios = useProtectedAxios();
+    useEffect(() => {
+        const fetchData = async()=>
+        {
+            try {
+                const books = await protectedAxios.get(BOOKS_URL)
+                setBooks(books?.data);
+            }catch (err) {
+                
+            } 
+        };
+        fetchData();
+    }, []);
     return(
         <>
         <div className='booklist'>
