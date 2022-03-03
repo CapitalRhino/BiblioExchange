@@ -18,7 +18,7 @@ namespace AppBackEnd.Controllers
         private readonly UserManager<BiblioUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
-        private const int RefreshTokenActiveDays = 2;
+        private const int RefreshTokenActiveHours = 2;
         private const int AccessTokenActive=1;
 
         public UserController(AppDbContext context,
@@ -44,7 +44,7 @@ namespace AppBackEnd.Controllers
             Response.Cookies.Append(
                 "Token",
                 refreshToken,
-                new CookieOptions { Expires = DateTime.Now.AddHours(RefreshTokenActiveDays), HttpOnly = true, Secure = true }
+                new CookieOptions { Expires = DateTime.Now.AddHours(RefreshTokenActiveHours), HttpOnly = true, Secure = true }
             );
             return Ok(token);
         }
@@ -61,7 +61,7 @@ namespace AppBackEnd.Controllers
             RefreshToken refreshToken = new RefreshToken();
             refreshToken.BiblioUserId = user.Id;
             refreshToken.Value = token;
-            refreshToken.Expires = DateTime.Now.AddHours(RefreshTokenActiveDays);
+            refreshToken.Expires = DateTime.Now.AddHours(RefreshTokenActiveHours);
             refreshToken.Revoke = null;
             Context.RefreshTokens.Add(refreshToken);
             Context.SaveChanges();
@@ -130,6 +130,11 @@ namespace AppBackEnd.Controllers
             await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             return Ok("Success");
         }
+        private void RevokeToken(RefreshToken refreshToken)
+        {
+            Context.RefreshTokens.Remove(refreshToken);
+            Context.SaveChanges();
+        }
         [HttpPost]
         [Route("RefreshToken")]
         public async Task<ActionResult<BiblioUser>> RefreshToken()
@@ -142,13 +147,13 @@ namespace AppBackEnd.Controllers
             if (found.IsActive) return BadRequest("Expired or revoke token");
             var user =Context.Users.FirstOrDefault(x => x.Id == found.BiblioUserId);
             Token token = await CreateToken(user);
-            found.Revoke = DateTime.Now;
             string refreshToken = await GenerateRefreshToken(user);
+            RevokeToken(found);
             Response.Cookies.Append(
                 "Token",
                 refreshToken,
                 new CookieOptions {
-                     Expires = DateTime.Now.AddHours(RefreshTokenActiveDays),
+                     Expires = DateTime.Now.AddHours(RefreshTokenActiveHours),
                       HttpOnly = true ,
                       Secure = true,
                       SameSite =SameSiteMode.None
@@ -156,6 +161,20 @@ namespace AppBackEnd.Controllers
             );
             return Ok(token);
         }
-        
+        [HttpPost]
+        [Route("Logout")]
+        public async Task<ActionResult<BiblioUser>> Logout()
+        {
+
+            string refresh = Request.Cookies["Token"];
+            if (refresh == null) return BadRequest("Not cookie found");
+            var found = Context.RefreshTokens.FirstOrDefault(x => x.Value == refresh);
+            if (found == null) return BadRequest("Invalid refresh token");
+            if (found.IsActive) return BadRequest("Expired or revoke token");
+            var user =Context.Users.FirstOrDefault(x => x.Id == found.BiblioUserId);
+            RevokeToken(found);
+            Response.Cookies.Delete("Token");
+            return Ok();
+        }
     }
 }

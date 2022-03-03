@@ -9,6 +9,7 @@ import Layout from './Layout/Layout';
 import Home from './Home/Home';
 import Unauthorized from './Auth/Unauthorized';
 import RequireAuth from './Auth/RequireAuth';
+import PersistLogin from './Auth/PersistLogin';
 function App() {
     return (
         <AuthProvider>
@@ -18,10 +19,11 @@ function App() {
                     <Route exact path='/Login' element={<Login />} />
                     <Route exact path='/Register' element={<Register />} />
                     <Route exact path='UnAuthorized' element={<Unauthorized />} />
-                    <Route element={<RequireAuth allowedroles={['Admin']}/>}>
-                        <Route exact path='/Books' element={<BookList />} />
+                    <Route element={<PersistLogin />}>
+                        <Route element={<RequireAuth allowedroles={['Admin']} />}>
+                            <Route exact path='/Books' element={<BookList />} />
+                        </Route>
                     </Route>
-
                 </Route>
             </Routes>
         </AuthProvider>

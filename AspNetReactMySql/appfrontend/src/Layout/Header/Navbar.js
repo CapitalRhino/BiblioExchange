@@ -1,17 +1,18 @@
 import React,{useCallback} from 'react'
 import { Link,useNavigate } from "react-router-dom";
 import useAuth from '../../Auth/useAuth';
+import useLogout from '../../Auth/useLogout';
 import './Header.css'
 const Navbar = () => {
-    const {auth,setAuth} = useAuth();
+    const {auth} = useAuth();
     const navigate = useNavigate();
-    const logout=useCallback(
+    const logout = useLogout();
+    const singout=useCallback(
       async () => {
-        //revoke refresh token
-        setAuth({});
-        navigate('/')
+        await logout();
+        navigate('/');
       },
-      [setAuth]
+      []
     );
     return (
         <nav>
@@ -30,7 +31,7 @@ const Navbar = () => {
             </ul>
             {
           auth?.accessToken
-          ?<button  onClick={logout}>Logout</button>
+          ?<button  onClick={singout}>Logout</button>
           :<></>
         }
         </nav>

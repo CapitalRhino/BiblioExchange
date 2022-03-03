@@ -5,7 +5,6 @@ import useAuth from './useAuth'
 function RequireAuth({allowedroles}) {
     const {auth} = useAuth();
     const location = useLocation();
-    console.log(allowedroles);
   return (
     auth?.roles?.find(role=>allowedroles.includes(role))
     ?<Outlet/>
