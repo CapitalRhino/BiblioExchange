@@ -5,6 +5,7 @@ import axios from '../api/axios';
 import { Link, useNavigate } from "react-router-dom";
 import '../Styles/Register.css';
 import AuthContext from "./AuthProvider";
+import PasswordToggle from "./PasswordToggle";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -98,7 +99,7 @@ const Register = () => {
             errRef.current.focus();
         }
     }
-
+    
     return (
         <>
             {success ? (
@@ -189,7 +190,7 @@ const Register = () => {
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
                         </label>
-                        <input
+                        {/* <input
                             type="password"
                             id="password"
                             onChange={(e) => setPwd(e.target.value)}
@@ -199,7 +200,8 @@ const Register = () => {
                             aria-describedby="pwdnote"
                             onFocus={() => setPwdFocus(true)}
                             onBlur={() => setPwdFocus(false)}
-                        />
+                        /> */}
+                        <PasswordToggle params={{password:"password",pwd:pwd,setPwd:setPwd,describedby:"pwdnote",validPwd:validPwd,setPwdFocus:setPwdFocus}}/>
                         <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             8 to 24 characters.<br />
