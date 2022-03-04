@@ -44,7 +44,7 @@ namespace AppBackEnd.Controllers
             Response.Cookies.Append(
                 "Token",
                 refreshToken,
-                new CookieOptions { Expires = DateTime.Now.AddHours(RefreshTokenActiveHours), HttpOnly = true, Secure = true }
+                new CookieOptions { Expires = DateTime.Now.AddHours(RefreshTokenActiveHours), HttpOnly = true, Secure = true ,SameSite =SameSiteMode.Lax}
             );
             return Ok(token);
         }
@@ -156,7 +156,7 @@ namespace AppBackEnd.Controllers
                      Expires = DateTime.Now.AddHours(RefreshTokenActiveHours),
                       HttpOnly = true ,
                       Secure = true,
-                      SameSite =SameSiteMode.None
+                      SameSite =SameSiteMode.Lax
                       }
             );
             return Ok(token);

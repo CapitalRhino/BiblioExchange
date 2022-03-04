@@ -45,7 +45,7 @@ form {
 
 input[type="text"],
 input[type="password"],
-.Login button,.Register button
+.Login button,.Register button,
 textarea {
   font-family: 'Nunito', sans-serif;
   font-size: 22px;
