@@ -15,11 +15,12 @@ function App() {
         <AuthProvider>
             <Routes>
                 <Route path="/" element={<Layout />} >
+                    <Route element={<PersistLogin />}>
                     <Route index element={<Home />} />
                     <Route exact path='/Login' element={<Login />} />
                     <Route exact path='/Register' element={<Register />} />
-                    <Route exact path='UnAuthorized' element={<Unauthorized />} />
-                    <Route element={<PersistLogin />}>
+                    <Route exact path='/UnAuthorized' element={<Unauthorized />} />
+                    
                         <Route element={<RequireAuth allowedroles={['Admin']} />}>
                             <Route exact path='/Books' element={<BookList />} />
                         </Route>
