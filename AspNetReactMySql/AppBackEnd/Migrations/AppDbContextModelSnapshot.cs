@@ -93,11 +93,23 @@ namespace AppBackEnd.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ISBN")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Publisher")
                         .IsRequired()
                         .HasColumnType("longtext");
 
