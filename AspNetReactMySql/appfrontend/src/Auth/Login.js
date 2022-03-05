@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-
+import LoginPasswordToggle from './LoginPasswordToggle';
 import axios from '../api/axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from './useAuth';
@@ -38,6 +38,7 @@ const Login = () => {
                     withCredentials: true
                 }
             );
+            
             const data = response?.data
             setAuth(data);
             setUser('');
@@ -74,14 +75,8 @@ const Login = () => {
                 />
 
                 <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    onChange={(e) => setPwd(e.target.value)}
-                    value={pwd}
-                    required
-                />
-                <button>Login</button>
+                <LoginPasswordToggle params={{password:"password",pwd:pwd,setPwd:setPwd}}/>
+                <button type="submit">Login</button>
             </form>
             <p>
                 Need an Account?<br />

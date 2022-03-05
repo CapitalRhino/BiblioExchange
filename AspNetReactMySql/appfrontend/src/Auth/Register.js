@@ -5,7 +5,7 @@ import axios from '../api/axios';
 import { Link, useNavigate } from "react-router-dom";
 import '../Styles/Register.css';
 import AuthContext from "./AuthProvider";
-import PasswordToggle from "./PasswordToggle";
+import RegisterPasswordToggle from "./RegisterPasswordToggle";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -39,7 +39,6 @@ const Register = () => {
     const [matchFocus, setMatchFocus] = useState(false);
 
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         userRef.current.focus();
@@ -78,10 +77,8 @@ const Register = () => {
                 JSON.stringify({Username: user,Email:email,Phone:phone,PasswordHashed: pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
-                    // withCredentials: true
                 }
             );
-            setSuccess(true);
             setUser('');
             setEmail('');
             setPhone('');
@@ -101,15 +98,6 @@ const Register = () => {
     }
     
     return (
-        <>
-            {success ? (
-                <section className="Register">
-                    <h1>Success!</h1>
-                    <p>
-                        <Link to="/Login">Login</Link>
-                    </p>
-                </section>
-            ) : (
                 <section className="Register">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Register</h1>
@@ -190,18 +178,7 @@ const Register = () => {
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
                         </label>
-                        {/* <input
-                            type="password"
-                            id="password"
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
-                            required
-                            aria-invalid={validPwd ? "false" : "true"}
-                            aria-describedby="pwdnote"
-                            onFocus={() => setPwdFocus(true)}
-                            onBlur={() => setPwdFocus(false)}
-                        /> */}
-                        <PasswordToggle params={{password:"password",pwd:pwd,setPwd:setPwd,describedby:"pwdnote",validPwd:validPwd,setPwdFocus:setPwdFocus}}/>
+                        <RegisterPasswordToggle params={{password:"password",pwd:pwd,setPwd:setPwd,describedby:"pwdnote",validPwd:validPwd,setPwdFocus:setPwdFocus}}/>
                         <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             8 to 24 characters.<br />
@@ -215,23 +192,13 @@ const Register = () => {
                             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
                         </label>
-                        <input
-                            type="password"
-                            id="confirm_pwd"
-                            onChange={(e) => setMatchPwd(e.target.value)}
-                            value={matchPwd}
-                            required
-                            aria-invalid={validMatch ? "false" : "true"}
-                            aria-describedby="confirmnote"
-                            onFocus={() => setMatchFocus(true)}
-                            onBlur={() => setMatchFocus(false)}
-                        />
+                        <RegisterPasswordToggle params={{password:"password",pwd:matchPwd,setPwd:setMatchPwd,describedby:"confirmnote",validPwd:validMatch,setPwdFocus:setMatchFocus}}/>
                         <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Must match the first password input field.
                         </p>
 
-                        <button disabled={!(validName &&validEmail && validPhone && validPwd && validMatch) ? true : false}>Sign Up</button>
+                        <button type="submit" disabled={!(validName &&validEmail && validPhone && validPwd && validMatch) ? true : false}>Sign Up</button>
                     </form>
                     <p>
                         Already registered?<br />
@@ -240,8 +207,7 @@ const Register = () => {
                         </span>
                     </p>
                 </section>
-            )}
-        </>
+
     )
 }
 
