@@ -1,7 +1,6 @@
 import React,{useCallback} from 'react'
-import { useNavigate } from 'react-router-dom';
-import useAuth from '../../Auth/useAuth';
 import Navbar from './Navbar'
+import './Header.scss'
 function Header() {
 
   

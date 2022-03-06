@@ -3,7 +3,7 @@ import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from '../api/axios';
 import { Link, useNavigate } from "react-router-dom";
-import '../Styles/Register.css';
+import './Auth.scss';
 import AuthContext from "./AuthProvider";
 import RegisterPasswordToggle from "./RegisterPasswordToggle";
 
