@@ -1,59 +1,132 @@
+@use "sass:math";
 @import '../../Styles/resets';
 $color1:#03045E;
 $color2:#00B4D8;
 $color3:#90E0EF;
 $color4:#CAF0F8;
+$mobile: 0;
+
+@mixin offscreen {
+    position: absolute;
+    left: -9999px;
+}
+
 header {
     min-height: 40px;
     display: flex;
     flex-flow: column;
-
+    .offscreen
+    {
+        @include offscreen();
+    }
     >nav {
         flex-grow: 1;
         display: flex;
+        flex-wrap: wrap;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         background: #24252A;
+
         >.Logo {
             color: beige;
             margin-left: 2rem;
         }
+
         >.Links {
+
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            >ul {
-                display: flex;
-                flex-direction: row;
 
-                >li {
-                    margin: 0 0.25rem;
-                    list-style-type: none;
-                    color: $color4;
-                    >a,>a:visited {
-                        display: flex;
-                    flex-direction: column;
-                    flex-wrap: nowrap;
+            @media (min-device-width:550px) {
+                >ul {
+                    display: flex;
+                    flex-direction: row;
+
+                    >li {
+                        margin: 0 0.25rem;
+                        list-style-type: none;
                         color: $color4;
-                        text-decoration: none;
-                        padding: 0 3px;
+                        text-align: center;
+
+                        >a,
+                        >a:visited {
+                            display: flex;
+                            flex-direction: column;
+                            flex-wrap: nowrap;
+                            color: $color4;
+                            text-decoration: none;
+                            padding: 0 3px;
+                        }
                     }
                 }
             }
 
-            >button {
+            @media (max-device-width:550px) {
+                >ul{
+                     @include offscreen();
+                }
+            }
+
+            >.Auth {
                 position: relative;
                 border: 0;
-                border-radius:50px;
-                color:beige; ;
+                border-radius: 50px;
+                color: beige;
                 background-color: $color2;
                 font-size: 14px;
                 padding: 0.25rem 0.55rem;
                 margin-left: 0.5rem;
                 margin-right: 1rem;
             }
+
+            .menu-icon {
+                @media (min-device-width:550px) {
+                    @include offscreen();
+                }
+
+                @media (max-device-width:550px) {
+                    display: block;
+                    background-color:  #24252A;
+                    margin-right: 1rem;
+                    border: 0;
+                    padding: 0 2px;
+                    font-size: 30px;
+                    color: beige;
+                }
+            }
+
+        }
+        #mobile-nav
+        {
+            @media (min-device-width:550px) {
+                @include offscreen();
+            }
+            @media (max-device-width:550px) {
+                display: block;
+                width: 100%;
+                li
+                {
+                    border-bottom: solid 1px beige;
+                    >a,
+                    >a:visited {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: nowrap;
+                        width: 100%;
+                        color: $color4;
+                        text-decoration: none;
+                        padding: 0 3px;
+                        font-size: 20px;
+                        >span{
+                            margin-left: 0.5rem
+                        };
+                    }
+                }
+            } 
+            
         }
     }
 }
