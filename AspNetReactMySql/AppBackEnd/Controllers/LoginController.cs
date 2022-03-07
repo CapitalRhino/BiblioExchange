@@ -19,7 +19,7 @@ namespace AppBackEnd.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
         private const int RefreshTokenActiveHours = 2;
-        private const int AccessTokenActive=1;
+        private const int AccessTokenActive=10;
 
         public UserController(AppDbContext context,
         RoleManager<IdentityRole> roleManager,
