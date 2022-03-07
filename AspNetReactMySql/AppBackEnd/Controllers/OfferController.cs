@@ -1,3 +1,6 @@
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+using System.Security.Cryptography;
 using System;
 using AppBackEnd.Data;
 using AppBackEnd.Models;
@@ -9,50 +12,50 @@ namespace AppBackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BookController : ControllerBase
+    public class OfferController : ControllerBase
     {
         public AppDbContext Context { get; private set; }
 
-        public BookController(AppDbContext context)
+        public OfferController(AppDbContext context)
         {
             Context = context;
         }
-
+        
         [HttpGet("all")]
-        public IEnumerable<Book> All()
+        public IEnumerable<Offer> All()
         {
-            return Context.Books.ToList();
+            return Context.Offers.ToList();
         }
 
         [HttpGet()]
-        public Book Get(int id)
+        public Offer Get(int id)
         {
-            Book book = Context.Books.FirstOrDefault(x => x.Id == id);
-            return book;
+            Offer offer = Context.Offers.FirstOrDefault(x => x.Id == id);
+            return offer;
         }
 
         [HttpGet("rnd")]
-        public IEnumerable<Book> NRandomBooks(int n)
+        public IEnumerable<Offer> NRandomOffers(int n)
         {
             Random rnd = new Random();
-            List<Book> temp = Context.Books.ToList();
-            List<Book> output = new List<Book>();
+            List<Offer> temp = Context.Offers.ToList();
+            List<Offer> output = new List<Offer>();
             for (var i = 1; i <= n; i++)
             {
                 int num = rnd.Next(0,temp.Count());
-                Book book = temp[num];
-                output.Add(book);
+                Offer offer = temp[num];
+                output.Add(offer);
                 temp.RemoveAt(num);
             }
             return output;
         }
 
         [HttpPost(),Authorize(Roles = UserRoles.Admin)]
-        public bool Post(Book book)
+        public bool Post(Offer offer)
         {
             try
             {
-                Context.Books.Add(book);
+                Context.Offers.Add(offer);
                 return Context.SaveChanges() == 1;
             }
             catch (System.Exception)
@@ -63,11 +66,11 @@ namespace AppBackEnd.Controllers
         }
 
         [HttpPut(),Authorize(Roles = UserRoles.Admin)]
-        public bool Update(Book book)
+        public bool Update(Offer offer)
         {
             try
             {
-                Context.Books.Update(book);
+                Context.Offers.Update(offer);
                 return Context.SaveChanges() == 1;
             }
             catch (System.Exception)
@@ -81,8 +84,8 @@ namespace AppBackEnd.Controllers
         {
             try
             {
-                Book book = Context.Books.FirstOrDefault(x => x.Id == id);
-                Context.Books.Remove(book);
+                Offer offer = Context.Offers.FirstOrDefault(x => x.Id == id);
+                Context.Offers.Remove(offer);
                 return Context.SaveChanges() == 1;
             }
             catch (System.Exception)
