@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace AppBackEnd.Models
@@ -6,9 +7,13 @@ public class Offer
     {
         [KeyAttribute]
         public int Id { get; set; }
-        [Required]
+        
+        public int BookId { get; set; }
+        [ForeignKey("Books")]
         public Book Book { get; set; }
-        [Required]
+       
+        public string UserId { get; set; } 
+        [ForeignKey("Users")]
         public BiblioUser User { get; set; }
         public string Description { get; set; }
         [Required]

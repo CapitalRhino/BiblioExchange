@@ -142,6 +142,9 @@ namespace AppBackEnd.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Books")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -158,13 +161,16 @@ namespace AppBackEnd.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Users")
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("Books");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Users");
 
                     b.ToTable("Offers");
                 });
@@ -328,15 +334,13 @@ namespace AppBackEnd.Migrations
                 {
                     b.HasOne("AppBackEnd.Models.Book", "Book")
                         .WithMany()
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("Books")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AppBackEnd.Models.BiblioUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Users");
 
                     b.Navigation("Book");
 
