@@ -1,16 +1,14 @@
 import React,{useState,useEffect} from 'react'
-import useAuth from '../Auth/useAuth'
-import axios from '../api/axios';
+import SearchBar from './SearchBar/SearchBar'
+import './Home.scss'
 function Home() {
   return (
-    <>
-    <h1>This Home page</h1>
-    <p> 
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad deserunt beatae <br />
-        vitae animi possimus deleniti non similique cupiditate, vero molestiae qui nisi <br />
-        maxime consectetur exercitationem quas esse commodi odit iusto.
-    </p>
-    </>
+    <section className='Home'>
+      <SearchBar/>
+      <article>
+        {/* <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora officia quidem vitae illo perspiciatis rem unde corrupti eos sequi possimus officiis laudantium molestiae pariatur inventore vel earum, ex ipsam! Accusantium?</p> */}
+      </article>
+    </section>
   )
 }
 

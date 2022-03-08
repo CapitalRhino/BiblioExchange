@@ -21,8 +21,11 @@ function RegisterPasswordToggle({ params }) {
         <button
         onClick={(e)=>{e.preventDefault()}}
          onMouseDown={()=>setType("text")}
+         onTouchStart={()=>setType("text")}
          onMouseUp={()=>setType("password")}
+         onTouchEnd={()=>setType("password")}
          onMouseLeave={()=>setType("password")}
+         onTouchMove={()=>setType("password")}
          onFocus={() => setPwdFocus(true)}
          onBlur={() => setPwdFocus(false)}
          ><FontAwesomeIcon icon={ faEye } /></button>

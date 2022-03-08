@@ -1,10 +1,10 @@
 @use "sass:math";
-@import '../../Styles/resets';
+@import '../../Styles/resets','../../Styles/ScreenThresholds';
 $color1:#03045E;
 $color2:#00B4D8;
 $color3:#90E0EF;
 $color4:#CAF0F8;
-$mobile: 0;
+
 
 @mixin offscreen {
     position: absolute;
@@ -12,6 +12,9 @@ $mobile: 0;
 }
 
 header {
+    top:0;
+    position:fixed;
+    width: 100%;
     min-height: 40px;
     display: flex;
     flex-flow: column;
@@ -29,8 +32,15 @@ header {
         background: #24252A;
 
         >.Logo {
-            color: beige;
-            margin-left: 2rem;
+            color: $color4;
+            @media (min-width:$tiny-threshhold)
+            {
+                margin-left: 2rem;
+            }
+            @media (max-width:$tiny-threshhold)
+            {
+                margin-left: 0.25rem;
+            }
         }
 
         >.Links {
@@ -40,7 +50,7 @@ header {
             justify-content: space-between;
             align-items: center;
 
-            @media (min-device-width:550px) {
+            @media (min-width:$mobile-threshold) {
                 >ul {
                     display: flex;
                     flex-direction: row;
@@ -64,7 +74,7 @@ header {
                 }
             }
 
-            @media (max-device-width:550px) {
+            @media (max-width:$mobile-threshold) {
                 >ul{
                      @include offscreen();
                 }
@@ -80,17 +90,27 @@ header {
                 padding: 0.25rem 0.55rem;
                 margin-left: 0.5rem;
                 margin-right: 1rem;
+                @media (max-width:$tiny-threshhold) {
+                    margin-left: 0;
+                    margin-right: 0.5rem;
+                }
             }
 
             .menu-icon {
-                @media (min-device-width:550px) {
+                @media (min-width:$mobile-threshold) {
                     @include offscreen();
                 }
 
-                @media (max-device-width:550px) {
+                @media (max-width:$mobile-threshold) {
                     display: block;
                     background-color:  #24252A;
-                    margin-right: 1rem;
+                    @media (min-width:$tiny-threshhold)
+                    {
+                        margin-right: 1rem;
+                    }
+                    @media (max-width:$tiny-threshhold) {
+                        margin-right: 0.5rem;
+                    }
                     border: 0;
                     padding: 0 2px;
                     font-size: 30px;
@@ -101,10 +121,10 @@ header {
         }
         #mobile-nav
         {
-            @media (min-device-width:550px) {
+            @media (min-width:$mobile-threshold) {
                 @include offscreen();
             }
-            @media (max-device-width:550px) {
+            @media (max-width:$mobile-threshold) {
                 display: block;
                 width: 100%;
                 li
@@ -118,7 +138,7 @@ header {
                         width: 100%;
                         color: $color4;
                         text-decoration: none;
-                        padding: 0 3px;
+                        padding: 0.25rem 3px;
                         font-size: 20px;
                         >span{
                             margin-left: 0.5rem

@@ -1,0 +1,33 @@
+@import '../../Styles/resets';
+.SearchBar {
+    max-width: 100%;
+    padding: 0 1rem;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 0;
+    border-radius: 0.5rem;
+
+    >input {
+        min-width: 50px;
+        border-top-left-radius: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
+        font-size: 22px;
+        border: 0;
+        padding:  0.25rem;;
+        &:focus
+        {
+            outline: none;
+        }
+    }
+    >span
+    {
+        padding:  0.25rem;;
+        font-size: 22px;
+        background-color: white;
+        color: black;
+        border-top-right-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
+    }
+}

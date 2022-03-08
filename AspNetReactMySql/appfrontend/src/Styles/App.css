@@ -1,5 +1,9 @@
 .App
 {
+    background-color: #47b3a6;
+    background-image: linear-gradient(180deg, #47b3a6 0%, #4357be 100%);
+
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
