@@ -31,6 +31,7 @@ namespace AppBackEnd.Controllers
         public Offer Get(int id)
         {
             Offer offer = Context.Offers.FirstOrDefault(x => x.Id == id);
+            System.Console.WriteLine(offer.Book?.Id);
             return offer;
         }
 
@@ -51,10 +52,21 @@ namespace AppBackEnd.Controllers
         }
 
         [HttpPost(),Authorize(Roles = UserRoles.Admin)]
-        public bool Post(Offer offer)
+        public bool Post(OfferDtoAdd offerDto)
         {
             try
             {
+                System.Console.WriteLine(offerDto.BookId);
+                Book book = Context.Books.FirstOrDefault(x => x.Id == offerDto.BookId);
+                BiblioUser user = Context.Users.FirstOrDefault(x => x.UserName == offerDto.UserName);
+                Offer offer = new Offer{
+                    BookId = book.Id,
+                    UserId = user.Id,
+                    Description = offerDto.Description,
+                    UploadTime = DateTime.Now,
+                    Price = offerDto.Price,
+                    ImageUrl = offerDto.ImageUrl
+                };
                 Context.Offers.Add(offer);
                 return Context.SaveChanges() == 1;
             }
