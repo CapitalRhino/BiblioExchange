@@ -28,7 +28,7 @@ const Navbar = () => {
                     <Link to={"/"}><FontAwesomeIcon icon={faHome}/>Home</Link>
                 </li>
                 <li>
-                <Link to={"/Books"}><FontAwesomeIcon icon={faSearch}/>Search</Link>
+                <Link to={"/Search"}><FontAwesomeIcon icon={faSearch}/>Search</Link>
                 </li>
                 <li>
                     <Link to={'/'} ><FontAwesomeIcon icon={faPlusCircle} />Add</Link>
