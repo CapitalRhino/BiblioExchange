@@ -31,7 +31,7 @@ const Navbar = () => {
                 <Link to={"/Search"}><FontAwesomeIcon icon={faSearch}/>Search</Link>
                 </li>
                 <li>
-                    <Link to={'/'} ><FontAwesomeIcon icon={faPlusCircle} />Add</Link>
+                    <Link to={'/AddAd'} ><FontAwesomeIcon icon={faPlusCircle} />Add</Link>
                 </li>
                 <li>
                     <Link to={'/Login'} ><FontAwesomeIcon icon={faUser} />Profile</Link>
@@ -50,10 +50,10 @@ const Navbar = () => {
                     <Link to={"/"}><FontAwesomeIcon icon={faHome}/><span>Home</span> </Link>
                 </li>
                 <li>
-                <Link to={"/Books"}><FontAwesomeIcon icon={faSearch}/><span>Search</span> </Link>
+                <Link to={"/Search"}><FontAwesomeIcon icon={faSearch}/><span>Search</span> </Link>
                 </li>
                 <li>
-                    <Link to={'/'} ><FontAwesomeIcon icon={faPlusCircle} /><span>Add</span> </Link>
+                    <Link to={'/AddAd'} ><FontAwesomeIcon icon={faPlusCircle} /><span>Add</span> </Link>
                 </li>
                 <li>
                     <Link to={'/Login'} ><FontAwesomeIcon icon={faUser} /><span>Profile</span> </Link>

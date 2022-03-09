@@ -1,4 +1,4 @@
-@import '../../Styles/resets','../../Styles/ScreenThresholds';
+@import '../../Styles/resets';
 
 @mixin OnFocus {
     &:focus {
@@ -9,7 +9,7 @@
 .SearchMenu {
 
     flex: 1 1 10px;
-    max-width: 600px;
+    max-width: 800px;
     width: 80%;
     min-width: 240px;
     display: flex;
@@ -17,7 +17,7 @@
     flex-wrap: nowrap;
     align-items: center;
     margin: 0;
-    border-radius: 0.5rem;
+    border-radius:50px;
     padding: 0.25rem;
     background-color: #fff;
 
@@ -25,72 +25,23 @@
         outline: black auto;
     }
 
-    >.inputs {
-        flex: 1 1 150px;
-        min-width: 150px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        $border:1px solid gray;
-        @mixin Input {
-             min-width: 10px;
-            font-size: 22px; 
-            border: 0;
-            padding-left: 0.25rem;
-            @include OnFocus();
-            flex-basis: 180px;
-            flex-shrink: 0
-        }
-        >.ad {
-           @include Input();
-           border-bottom: $border;
-            border-right: $border;
-            flex-grow: 4;
-            
-            @media (max-width:calc(539px))
-            {
-                border-right: 0;
-            }
-        }
-        >.author{
-            @include Input();
-            border-bottom: $border;
-            border-right: 0;
-            flex-grow: 2;
-        }
-        >.genre
-        {
-            @include Input();
-            flex-grow: 5;
-            flex-basis: 180px;
-            @media (min-width:calc(764px))
-            {
-                border-left: $border;
-                border-bottom: $border;
-            } 
-            @media (max-width:calc(763px))
-            {
-                border-right: $border;
-                @media (max-width:calc(539px))
-                {
-                    border-right: 0;
-                    border-bottom: $border;
-                }
-            }
-        }
-        >.book{
-            @include Input();
-            border-right: 0;
-            flex-grow: 1;
-            border-bottom: 0;
-        } 
-    }
+   >input{
+       width: 100%;
+    min-width: 10px;
+    font-size: 22px; 
+    border: 0;
+    padding-left: 0.25rem;
+     @include OnFocus();
+    flex: 1 1 180px;
+    min-width: 180px;
+   };
 
     >.Search-Button {
         height: 80%;
         font-size: 22px;
+        text-align: center;
         margin-top: 0px;
-        padding: 0.25rem 0.75rem;
+        padding: 0.25rem 0.35rem 0.75rem;
         flex: 0 0 50px;
         background-color: #fff;
         border: 0;

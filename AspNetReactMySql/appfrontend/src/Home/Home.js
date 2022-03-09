@@ -6,7 +6,7 @@ function Home() {
     <section className='Home'>
       <SearchBar/>
       <article>
-        {/* <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora officia quidem vitae illo perspiciatis rem unde corrupti eos sequi possimus officiis laudantium molestiae pariatur inventore vel earum, ex ipsam! Accusantium?</p> */}
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora officia quidem vitae illo perspiciatis rem unde corrupti eos sequi possimus officiis laudantium molestiae pariatur inventore vel earum, ex ipsam! Accusantium?</p>
       </article>
     </section>
   )
