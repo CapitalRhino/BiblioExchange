@@ -18,6 +18,7 @@ header {
     min-height: 40px;
     display: flex;
     flex-flow: column;
+    z-index: 20;
     .offscreen
     {
         @include offscreen();

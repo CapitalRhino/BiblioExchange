@@ -1,0 +1,67 @@
+@import '../../Styles/resets';
+$threshold-ISBN-1:540px;
+$threshold-ISBN-2:440px;
+.isbn {
+display: flex;
+align-items: center;
+@media (max-width:$threshold-ISBN-1) {
+    flex-direction: column;
+    align-items: flex-start;
+}
+    .isbn-input {
+        display: flex;
+        justify-content: flex-start;
+        margin-right: 10px;
+        @media (max-width:$threshold-ISBN-2) {
+            flex-direction: column;
+        }
+
+        align-items: baseline;
+
+        >input[type="text"] {
+            max-width: 235px;
+            width: 90%;
+            ;
+            min-width: 100px;
+            border-radius: 1em;
+
+            @media (max-width:$threshold-ISBN-2) {
+                margin: 5px 0 10px 0.6rem;
+            }
+
+            border-width: 1px;
+            padding: 5px 20px 5px 10px;
+            font-size: 0.8em;
+            font-family: 'Montserrat',
+            sans-serif;
+        }
+    }
+
+    .ISBNFile {
+        width: 150px;
+        padding: 5px 10px;
+        background: #00B4D8;
+        border: 1px solid #00B4D8;
+        color: #fff;
+        border-radius: 50px;
+        text-align: center;
+        margin-left: 10px;
+        cursor: pointer;
+        @media (max-width:$threshold-ISBN-1) {
+            margin-top: 10px;
+        }
+    }
+
+    .hideIsbn {
+        position: absolute;
+        transform: translate(-86%, -15%);
+        z-index: 10;
+        color: red;
+        opacity: 0;
+        cursor: pointer;
+        border-radius: 50px;
+        font-size: 24px;
+        width: 150px;
+
+    }
+}

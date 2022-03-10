@@ -12,6 +12,7 @@ import RequireAuth from './Auth/RequireAuth';
 import PersistLogin from './Auth/PersistLogin';
 import Search from './Search/Search';
 import Add from './Add/Add';
+import Profile from './Profile/Profile';
 function App() {
     return (
         <AuthProvider>
@@ -24,6 +25,7 @@ function App() {
                     <Route exact path='/UnAuthorized' element={<Unauthorized />} />
                     <Route exact path='/Search' element={<Search/>}/>
                     <Route exact path='/AddAd' element={<Add/>}/>
+                    <Route exact path='/Profile' element={<Profile/>}/>
                         <Route element={<RequireAuth allowedroles={['User']} />}>
                             
                             <Route exact path='/Books' element={<BookList />} />

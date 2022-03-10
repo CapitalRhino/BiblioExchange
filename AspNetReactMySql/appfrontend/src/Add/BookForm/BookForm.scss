@@ -1,0 +1,62 @@
+@import '../../Styles/resets';
+$threshold-book-form1:440px;
+@mixin Font {
+        border-width: 1px;
+        padding: 5px 20px 5px 10px;
+        font-size: 0.8em;
+        font-family: 'Montserrat', sans-serif;
+    }
+@mixin InputStylingAdd {
+    >span {
+        display: flex;
+        justify-content: flex-start;
+        @media (max-width:$threshold-book-form1)
+        {
+            flex-direction: column;
+        }
+        align-items: baseline;
+        >input[type="text"] {
+            max-width:235px; 
+            width: 90%;;
+            min-width: 100px;
+            border-radius: 1em;
+            margin: 20px 0 10px 0;
+            @media (max-width:$threshold-book-form1)
+        {
+            margin: 5px 0 10px 0.6rem;
+        }
+            @include Font();
+        }
+        
+    }
+    >.textarea-span
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        >textarea {
+            max-width:235px; 
+            width: 90%;;
+            border-radius: 0.5rem;
+            margin-left: 0.6rem;
+            @include Font();
+            resize: none;
+        }
+    }
+}
+.BookForm {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    @include InputStylingAdd();
+}
+
+
+.ReadOnly {
+    opacity: 0.5;
+
+    >input,
+    textarea {
+        outline: 0;
+    }
+}
