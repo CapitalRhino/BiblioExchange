@@ -47,47 +47,70 @@ namespace AppBackEnd.Controllers
             return output;
         }
 
-        [HttpPost(),Authorize(Roles = UserRoles.Admin)]
-        public bool Post(Book book)
+        [HttpPost(),Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult<Book>> Post(Book book)
         {
             try
             {
                 Context.Books.Add(book);
-                return Context.SaveChanges() == 1;
+                if (Context.SaveChanges() == 1)
+                {
+                    return Ok("Success");
+                }
+                else return BadRequest("Save error");
             }
             catch (System.Exception)
             {
-                return false;
+                return BadRequest();
             }
 
         }
 
         [HttpPut(),Authorize(Roles = UserRoles.Admin)]
-        public bool Update(Book book)
+        public async Task<ActionResult<Book>> Update(int id, BookDtoAdd request)
         {
             try
             {
+                var book = Context.Books.FirstOrDefault(x => x.Id == id);
+                book.Title = request.Title;
+                book.ISBN = request.ISBN;
+                book.Author = request.Author;
+                book.Description = request.Description;
+                book.Year = request.Year;
+                book.Language = request.Language;
+                book.Nationality = request.Nationality;
+                book.ImageUrl = request.ImageUrl;
+                book.Publisher = request.Publisher;
+                book.Genre = request.Genre;
                 Context.Books.Update(book);
-                return Context.SaveChanges() == 1;
+                if (Context.SaveChanges() == 1)
+                {
+                    return Ok("Success");
+                }
+                else return BadRequest("Update error");
             }
             catch (System.Exception)
             {
-                return false;
+                return BadRequest();
             }
         }
 
         [HttpDelete(),Authorize(Roles = UserRoles.Admin)]
-        public bool Delete(int id)
+        public async Task<ActionResult<Book>> Delete(int id)
         {
             try
             {
                 Book book = Context.Books.FirstOrDefault(x => x.Id == id);
                 Context.Books.Remove(book);
-                return Context.SaveChanges() == 1;
+                if (Context.SaveChanges() == 1)
+                {
+                    return Ok("Success");
+                }
+                else return BadRequest("Delete error");
             }
             catch (System.Exception)
             {
-                return false;
+                return BadRequest();
             }
         }
     }

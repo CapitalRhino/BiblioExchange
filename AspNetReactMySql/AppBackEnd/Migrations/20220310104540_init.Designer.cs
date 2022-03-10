@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppBackEnd.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220308112154_Offer")]
-    partial class Offer
+    [Migration("20220310104540_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -141,10 +141,11 @@ namespace AppBackEnd.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
+                    b.Property<string>("BiblioUserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("Books")
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -161,18 +162,11 @@ namespace AppBackEnd.Migrations
                     b.Property<DateTime>("UploadTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Users")
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("Books");
+                    b.HasIndex("BiblioUserId");
 
-                    b.HasIndex("Users");
+                    b.HasIndex("BookId");
 
                     b.ToTable("Offers");
                 });
@@ -334,19 +328,21 @@ namespace AppBackEnd.Migrations
 
             modelBuilder.Entity("AppBackEnd.Models.Offer", b =>
                 {
-                    b.HasOne("AppBackEnd.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("Books")
+                    b.HasOne("AppBackEnd.Models.BiblioUser", "BiblioUser")
+                        .WithMany("Offers")
+                        .HasForeignKey("BiblioUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AppBackEnd.Models.BiblioUser", "User")
-                        .WithMany()
-                        .HasForeignKey("Users");
+                    b.HasOne("AppBackEnd.Models.Book", "Book")
+                        .WithMany("Offers")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BiblioUser");
 
                     b.Navigation("Book");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AppBackEnd.Models.RefreshToken", b =>
@@ -411,7 +407,14 @@ namespace AppBackEnd.Migrations
 
             modelBuilder.Entity("AppBackEnd.Models.BiblioUser", b =>
                 {
+                    b.Navigation("Offers");
+
                     b.Navigation("RefreshTokens");
+                });
+
+            modelBuilder.Entity("AppBackEnd.Models.Book", b =>
+                {
+                    b.Navigation("Offers");
                 });
 #pragma warning restore 612, 618
         }

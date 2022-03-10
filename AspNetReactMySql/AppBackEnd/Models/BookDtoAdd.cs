@@ -1,11 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-
 namespace AppBackEnd.Models
 {
-public class Book
+    public class BookDtoAdd
     {
-        [KeyAttribute]
-        public int Id { get; set; }
         [Required]
         public string Title { get; set; }
         public string ISBN {get; set; }

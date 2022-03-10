@@ -72,12 +72,12 @@ namespace AppBackEnd.Controllers
             var userRoles = await _userManager.GetRolesAsync(user);
             List<Claim> claims = new List<Claim>
             {
-                new Claim("ClaimTypes.Name",user.UserName),
+                new Claim("Username",user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             foreach (var userRole in userRoles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, userRole));
+                claims.Add(new Claim("Roles", userRole));
             }
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _config.GetSection("TokenSettings").Value));

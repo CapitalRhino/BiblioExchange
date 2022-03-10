@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AppBackEnd.Migrations
 {
-    public partial class Offer : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -258,10 +258,7 @@ namespace AppBackEnd.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     BookId = table.Column<int>(type: "int", nullable: false),
-                    Books = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Users = table.Column<string>(type: "varchar(255)", nullable: true)
+                    BiblioUserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -274,13 +271,14 @@ namespace AppBackEnd.Migrations
                 {
                     table.PrimaryKey("PK_Offers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Offers_AspNetUsers_Users",
-                        column: x => x.Users,
+                        name: "FK_Offers_AspNetUsers_BiblioUserId",
+                        column: x => x.BiblioUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Offers_Books_Books",
-                        column: x => x.Books,
+                        name: "FK_Offers_Books_BookId",
+                        column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -325,14 +323,14 @@ namespace AppBackEnd.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Offers_Books",
+                name: "IX_Offers_BiblioUserId",
                 table: "Offers",
-                column: "Books");
+                column: "BiblioUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Offers_Users",
+                name: "IX_Offers_BookId",
                 table: "Offers",
-                column: "Users");
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_BiblioUserId",
