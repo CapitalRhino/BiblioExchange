@@ -1,6 +1,9 @@
 @import '../Styles/resets';
 .Search
 {
+    p{
+        visibility: hidden;
+    }
     max-width: 100%;
     display: flex;
     flex-direction: column;
@@ -9,6 +12,6 @@
     height: 100%;
     >article
     {
-
+        width: 100%;
     }
 }

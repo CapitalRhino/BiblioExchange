@@ -2,15 +2,15 @@ import React,{useState,useEffect,useRef} from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch,faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import './SearchMenu.scss'
-function SearchMenu() {
-  const [book, setBook] = useState('');
+function SearchMenu({setTitle}) {
+  const [book, setBook] = useState('')
   const bookRef = useRef();
   useEffect(() => {
     bookRef.current.focus();
 }, [])
   const searchFetch = ()=>
   {
-
+    setTitle(book)
   }
   return (
     <div className='SearchMenu'>

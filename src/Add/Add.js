@@ -67,7 +67,7 @@ function Add() {
             <span>
             <label htmlFor="price">Price:</label>
             <input  type="number" id='price' value={price}onChange={(e)=>setPrice(e.target.value)}/></span>
-            <div><button onClick={handler} className='add-offer' >Add the Offer</button></div>:<></>
+            <div><button onClick={handler} className='add-offer' >Add the Offer</button></div><></>
         </article>
         :<></>
         }

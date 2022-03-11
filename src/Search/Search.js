@@ -1,12 +1,15 @@
-import React from 'react'
+import React,{useState} from 'react'
 import SearchMenu from './SearchMenu/SearchMenu'
 import './Search.scss'
+import BookListSearch from '../Books/BookListSearch'
 function Search() {
+  const [title, setTitle] = useState('')
   return (
     <section className='Search'>
-      <SearchMenu/>
+      <SearchMenu setTitle={setTitle}/>
       <article>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, eveniet perferendis dignissimos et ipsa est quasi sint impedit ea adipisci voluptate corrupti tenetur nobis voluptatum, numquam reprehenderit recusandae perspiciatis nam autem magnam officia vero facilis officiis? Illum ab obcaecati, fuga esse minus neque? Recusandae perferendis nulla culpa quos laborum quasi?</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, voluptas nobis. Dolorem esse deleniti delectus, dicta assumenda molestiae nisi, inventore unde blanditiis beatae mollitia omnis qui pariatur veritatis, quod sit.</p>
+             {title!=''? <BookListSearch title={title}/>:<></>}
 
       </article>
     </section>
