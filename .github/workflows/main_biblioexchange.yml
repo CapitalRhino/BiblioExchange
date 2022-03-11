@@ -50,4 +50,3 @@ jobs:
           app-name: 'biblioexchange'
           slot-name: 'Production'
           images: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.REPOSITORY_NAME }}:${{ github.sha }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8850D8F0E3A04CB29AA26A6678F12286 }} 
