@@ -15,7 +15,7 @@ function SearchField({setBook}) {
     {
       params:{
         query:title,
-        curPage:1,
+        curPage:0,
         pageSize:1
       }
     })

@@ -1,30 +1,43 @@
 import React, { useRef, useState } from 'react'
 import './ISBNFile.scss'
-// import axios
-function ISBNFile() {
+import axios,{ pythonAxios } from '../../api/axios'
+function ISBNFile({setBook}) {
     const inputFile = useRef();
     const [file, setfile] = useState(null);
     const [isbn, setISBN] = useState('');
     const handler = async () => {
+        let searchIsbn = null;
         if (isbn == '') {
             try {
-                const base64 = await fileToBase64();
-                console.log();
+                let base64 = await fileToBase64();
+                base64 = base64.split(',')[1].replaceAll('+', '-').replaceAll('/', '_')
+                const res = await pythonAxios.get(`/barcodereader/${base64}`)
+                searchIsbn = res.data.barcodedata
+                console.log(searchIsbn);
             } catch (error) {
                 alert(error);
             }
         }
-        else{
-            
+        else {
+            searchIsbn = isbn;
         }
-
-
-
+        const res = await axios.get(`/Search/Book/isbn`,
+            {
+                params: {
+                    query: searchIsbn,
+                    curPage: 0,
+                    pageSize: 1
+                }
+            })
+            const data = res.data
+            if(data!=[]){
+              setBook(data[0])
+            }
     }
     const fileToBase64 = () => {
         return new Promise((res, rej) => {
             const fileReader = new FileReader();
-            fileReader.readAsDataURL(inputFile)
+            fileReader.readAsDataURL(inputFile.current.files[0])
             fileReader.onload = () => {
                 res(fileReader.result)
             }
@@ -45,7 +58,7 @@ function ISBNFile() {
                 {file ? file : 'Choose file'}
                 <input ref={inputFile} type="file" className='hideIsbn' onChange={() => setfile(inputFile.current.files[0].name)} />
             </span>
-            <button>Find with ISBN</button>
+            <button onClick={handler}>Find with ISBN</button>
         </span>
 
     )
