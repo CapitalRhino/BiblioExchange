@@ -4,9 +4,6 @@
     width: 95%;
     gap: 2rem;
     grid-template-columns: repeat(auto-fit, [col-start] minmax(350px,1fr) [col-end]);
-    p{
-        visibility: hidden;
-    }
     .book{
         width: minmax(300px,30%);
         height: 200px;
