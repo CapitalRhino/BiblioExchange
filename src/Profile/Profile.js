@@ -6,6 +6,7 @@ import './Profile.scss'
 import Email from './Email';
 import Phone from './Phone';
 import Password from './Password';
+import useAuth from '../Auth/useAuth';
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const PHONE_REGEX = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
@@ -14,7 +15,7 @@ const UpdatePhone = async (email) => {
 }
 
 function Profile() {
-  const [username, setUsername] = useState('');
+  const{auth} = useAuth();
 
   const [phone, setPhone] = useState('');
   const [validPhone, setValidPhone] = useState(false);
@@ -36,7 +37,7 @@ function Profile() {
     <section className='Profile'>
       <form onSubmit={(e) => e.preventDefault()}>
         <article>
-          <label className='username'>Hello, {username}</label>
+          <label className='username'>Hello, {auth.username}</label>
          <Email/>
           <Phone/>
           <Password/>

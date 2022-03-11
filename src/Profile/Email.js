@@ -2,11 +2,23 @@ import React,{useState,useEffect} from 'react'
 import { faEdit, faSave, faTimes ,faInfoCircle,faCancel} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './ChangeField.scss'
-const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-const UpdateEmail = async (email) => {
+import useProtectedAxios from '../Auth/useProtectedAxios';
 
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const UpdateEmail = async (email,axios) => {
+    // try {
+    //     await axios.put('/Auth/Edit/Email', { email:email }
+    //       )
+           
+       
+  
+    // } catch (error) {
+    //     alert(error)
+    // }
+    
 }
 function Email() {
+    const axios=useProtectedAxios();
     const [perv, setPerv] = useState('')
     const [email, setEmail] = useState('');
     const [editEmail, setEditEmail] = useState(false);
@@ -38,7 +50,7 @@ function Email() {
             </p>
             {
                 editEmail
-                    ? <span><button style={{color:validEmail?'limegreen':'red'}} className='confirm' disabled={!validEmail} onClick={() => { UpdateEmail(); setEditEmail(false); setPerv('') }}>
+                    ? <span><button style={{color:validEmail?'limegreen':'red'}} className='confirm' disabled={!validEmail} onClick={() => { UpdateEmail(email,axios); setEditEmail(false); setPerv('') }}>
                        {validEmail?<>Save </>:<>Unvalid </>} <FontAwesomeIcon icon={faSave} className={validEmail ? "valid" : "hide"} />
                         <FontAwesomeIcon icon={faTimes} className={validEmail ? "hide" : "invalid"} />
                     </button>
