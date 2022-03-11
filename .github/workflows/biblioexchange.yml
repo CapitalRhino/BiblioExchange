@@ -28,9 +28,10 @@ jobs:
 
     - name: npm install, build, and test
       run: |
-        npm install "${{ env.WORKING_DIRECTORY }}"
-        npm run build --if-present "${{ env.WORKING_DIRECTORY }}"
-        npm run test --if-present "${{ env.WORKING_DIRECTORY }}"
+        cd "${{ env.WORKING_DIRECTORY }}"
+        npm install 
+        npm run build --if-present
+        npm run test --if-present
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
