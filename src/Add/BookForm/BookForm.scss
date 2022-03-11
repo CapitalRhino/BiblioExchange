@@ -19,7 +19,7 @@ $threshold-book-form1:440px;
 
         align-items: baseline;
 
-        >input[type="text"] {
+        >input[type="text"],>input[type="number"] {
             max-width: 235px;
             width: 90%;
             ;
@@ -78,12 +78,3 @@ $threshold-book-form1:440px;
 
 }
 
-
-.ReadOnly {
-    opacity: 0.5;
-
-    input,
-    textarea {
-        outline: 0;
-    }
-}
