@@ -2,15 +2,27 @@ import React,{useState,useEffect,useRef} from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch,faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import './SearchField.scss'
-function SearchField() {
-  const [book, setBook] = useState('');
+import axios from '../../api/axios';
+function SearchField({setBook}) {
+  const [title, setTitle] = useState('');
   const bookRef = useRef();
   useEffect(() => {
     bookRef.current.focus();
 }, [])
-  const searchFetch = ()=>
+  const searchFetch = async()=>
   {
-
+    const res = await axios.get(`/Search/Book/title`,
+    {
+      params:{
+        query:title,
+        curPage:1,
+        pageSize:1
+      }
+    })
+    const data = res.data
+   if(data!=[]){
+     setBook(data[0])
+   }
   }
   return (
     <div className='SearchFieldBar'>
@@ -18,8 +30,8 @@ function SearchField() {
         className='book'
         placeholder='The name of the book'
          type="text" 
-         value={book}
-         onChange={(e)=>{setBook(e.target.value)}}
+         value={title}
+         onChange={(e)=>{setTitle(e.target.value)}}
          />
         <button className='Search-Button' onClick={searchFetch}><FontAwesomeIcon icon={ faSearch } /></button>
       </div> 

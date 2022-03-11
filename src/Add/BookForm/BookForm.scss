@@ -78,7 +78,34 @@ $threshold-book-form1:440px;
 
 }
 
-
+.lightbox
+{
+    visibility: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba($color: #000000, $alpha: 0.7);
+    &:target{
+        visibility: visible;
+    }
+    .lightbox-content{
+        
+    }
+    .close{
+        position:absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 20px;
+        text-decoration: none;
+        color: #fff;
+    }
+    img{
+        max-width: 100%;
+        height: auto;
+    }
+}
 .ReadOnly {
     opacity: 0.5;
 

@@ -12,6 +12,7 @@ function Add() {
   const [book, setBook] = useState(null);
   const [orderDescription, setOrderDescription] = useState();
   const [price, setPrice] = useState(0);
+  console.log(book);
   return (
     <section className='Add'>
       <form onSubmit={(e)=>e.preventDefault()} action="">
@@ -27,7 +28,7 @@ function Add() {
               {
                 method === 1 ?<article> <ISBNFile/></article>
                   : method === 2 
-                      ?<article><SearchField /></article>
+                      ?<article><SearchField setBook={setBook}/></article>
                     : (<></>)
               }
               
@@ -47,6 +48,7 @@ function Add() {
             <span>
             <label htmlFor="price">Price:</label>
             <input  type="text" id='price' value={price}onChange={(e)=>setPrice(e.target.value)}/></span>
+            <div><button className='add-offer' >Add the Offer</button></div>:<></>
         </article>
         :<></>
         }
