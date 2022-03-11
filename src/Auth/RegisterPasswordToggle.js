@@ -19,6 +19,7 @@ function RegisterPasswordToggle({ params }) {
             onBlur={() => setPwdFocus(false)}
         />
         <button
+        className='button'
         onClick={(e)=>{e.preventDefault()}}
          onMouseDown={()=>setType("text")}
          onTouchStart={()=>setType("text")}

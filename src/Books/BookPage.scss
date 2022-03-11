@@ -1,0 +1,49 @@
+$color1:#FFFBF1;
+$bookpage-threshold:660px;
+.Page {
+    width: 100%;
+
+    margin: 0 auto;
+    width: 90%;
+    color: black;
+    font-size: 1.3em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+
+    >article {
+        background-color: $color1;
+        padding: 0 10px;
+
+        >.title-section {
+            text-align: center;
+        }
+
+        >.info {
+            display: flex;
+            @media(min-width: $bookpage-threshold)
+            {
+                flex-direction: row;
+            align-items: baseline;
+            }
+            @media(max-width: $bookpage-threshold)
+            {
+                flex-direction: column;
+            }
+            .text {
+                flex: 1 1 200px;
+                height: 100%;line-height:30px;
+            }
+
+            img {
+                height: 150px;
+                object-fit: contain;
+            }
+        }
+.desc{
+        height: 120px;
+        word-wrap:break-word;
+         overflow: hidden;
+    }
+    }
+    
+}

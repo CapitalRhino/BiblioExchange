@@ -14,7 +14,7 @@ function LoginPasswordToggle({ params }) {
             value={pwd}
             required
         />
-        <button
+        <button className='button'
         onClick={(e)=>{e.preventDefault()}}
          onMouseDown={()=>setType("text")}
          onTouchStart={()=>setType("text")}

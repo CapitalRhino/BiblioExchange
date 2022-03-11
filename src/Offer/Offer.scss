@@ -1,0 +1,31 @@
+.offerlist
+{
+    display: grid;
+    width: 95%;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, [col-start] minmax(350px,1fr) [col-end]);
+    .offer{
+        width: minmax(300px,30%);
+        height: 200px;
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        background: azure;
+        >.text
+        {
+            flex: 1 1 200px;
+            height: 100%;
+                overflow: hidden;
+                p{
+                    line-height:18px;
+                }
+        }
+        >img
+        {
+        
+            max-height: 300px;
+            object-fit: contain;
+            margin:auto 0px ;
+        }
+    }
+}
