@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React,{useState,useEffect} from 'react';
 import Book from './Book';
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import {useLocation,useNavigate,Link} from 'react-router-dom'
 import "./Book.scss"
-
 import axios from '../api/axios';
-
-function BookListSearch({title}) {
-    const [books, setBooks] = useState([])
+function BookListRnd() {
+    const [books, setBooks] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
     useEffect(() => {
@@ -14,12 +12,10 @@ function BookListSearch({title}) {
         const controller = new AbortController();
         const fetchData = async () => {
             try {
-                const res = await axios.get(`/Search/Book/title`,
+                const res = await axios.get(`Book/rnd`,
                     {
                         params: {
-                            query: title,
-                            curPage: 0,
-                            pageSize: 20
+                            n: 5,
                         },
                         signal: controller.signal
                     })
@@ -37,20 +33,22 @@ function BookListSearch({title}) {
             controller.abort();
         }
     }, []);
-    return (
-        <>
-            <div className='booklist'>
-                {books.map((bok, i) => {
-                    const link = `/Book/${bok.id}`
-                    return (
-                        <Link key={bok.id}className='link' to={link}>
-                            <Book  prop={bok} />
-                        </Link>
-                    )
-                })}
-
-            </div></>
-    );
+  return (
+    <>
+        <div className='booklist'>
+            {books.map((book,i)=>{
+                const link = `/Book/${book.id}`
+                return (
+                    
+                    <Link key={book.id} className='link' to={link}>
+                    <Book  prop={book}/>
+                    </Link>
+                    
+                )
+            })}
+          
+        </div></>
+  )
 }
 
-export default BookListSearch;
+export default BookListRnd

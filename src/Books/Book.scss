@@ -1,32 +1,37 @@
-.booklist
-{
+.booklist {
     display: grid;
     width: 95%;
     gap: 2rem;
-    grid-template-columns: repeat(auto-fit, [col-start] minmax(350px,1fr) [col-end]);
-    .book{
-        width: minmax(300px,30%);
+    grid-template-columns: repeat(auto-fit, [col-start] minmax(350px, 1fr) [col-end]);
+
+    .link {
+        width: minmax(300px, 30%);
         height: 200px;
-        display: flex;
-        flex-direction: row;
-        align-items: baseline;
-        background: azure;
-        >.text
-        {
-            color: black;
-            flex: 1 1 200px;
-            height: 100%;
+        text-decoration: none;
+
+        .book {
+    display: flex;
+    height: 200px;
+            flex-direction: row;
+            align-items: baseline;
+            background: azure;
+            >.text {
+                color: black;
+                flex: 1 1 200px;
+                height: 100%;
                 overflow: hidden;
-                p{
-                    line-height:18px;
+                text-decoration: none;
+                p {
+                    line-height: 18px;
                 }
-        }
-        >img
-        {
-        
-            max-height: 100%;
-            object-fit: contain;
-            margin:auto 0px ;
+            }
+
+            >img {
+
+                max-height: 100%;
+                object-fit: contain;
+                margin: auto 0px;
+            }
         }
     }
 }
