@@ -11,7 +11,7 @@ on:
 
 env:
   REGISTRY_NAME: biblioexchange
-  REPOSITORY_NAME: BiblioExchange
+  REPOSITORY_NAME: biblioexchange
 
 jobs:
   build:
