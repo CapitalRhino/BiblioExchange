@@ -42,7 +42,7 @@ function Add() {
         <span className='textarea-span'>
             <label >Ad</label>
             <label htmlFor="description">Description:</label>
-            <textarea name="description" cols="30" rows="3" onChange={(e)=>setOrderDescription(e.target.value)} value={orderDescription}></textarea>
+            <textarea name="description" cols="60" rows="3" onChange={(e)=>setOrderDescription(e.target.value)} value={orderDescription}></textarea>
             </span>
             <span>
             <label htmlFor="price">Price:</label>

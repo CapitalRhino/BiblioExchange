@@ -39,7 +39,7 @@ useEffect(() => {
             <input type="text" readOnly={!isnew} id='genre'value={genre}onChange={(e)=>setGenre(e.target.value)}/></span>
         <span className='textarea-span'>
             <label htmlFor="description">Description:</label>
-            <textarea name="description" readOnly={!isnew} cols="30" rows="3" onChange={(e)=>setDescription(e.target.value)}>{description}</textarea></span>
+            <textarea name="description" readOnly={!isnew} cols="60" rows="3" onChange={(e)=>setDescription(e.target.value)}>{description}</textarea></span>
         <span>
             <label htmlFor="year">Year:</label>
             <input readOnly={!isnew} type="text" id='year' value={year}onChange={(e)=>setYear(e.target.value)}/></span>

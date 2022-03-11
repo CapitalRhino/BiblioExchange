@@ -42,9 +42,9 @@ $threshold-book-form1:440px;
         align-items: flex-start;
 
         >textarea {
-            max-width: 235px;
+            max-width: 660px;
             width: 90%;
-            ;
+            height: 100px;
             border-radius: 0.5rem;
             margin-left: 0.6rem;
             @include Font();

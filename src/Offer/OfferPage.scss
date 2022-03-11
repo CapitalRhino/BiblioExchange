@@ -1,0 +1,35 @@
+@import '../Styles/AuthFont';
+@mixin BorderRadius {
+    @include FontProperty();
+    border-radius: 0.5rem;
+}
+.edit-buttons{
+    text-align: center;
+    .edit,.confirm,.cancel {
+    @include BorderRadius();
+    margin-top: 1rem;
+text-align: center;
+padding: 0.25rem;
+}
+}
+
+.description{
+    max-width: 400px;
+    width: 90%;
+    height: 100px;
+    border-radius: 0.5rem;
+    margin-left: 0.6rem;
+    @include FontProperty();
+    resize: none;
+}
+.price
+{
+    @include BorderRadius();
+        max-width: 400px;
+        width: 90%;
+        min-width: 150px;
+        padding:0.15rem 0.25rem;
+        flex: 1 0 210px;
+font-size: 18px;
+        
+}

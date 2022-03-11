@@ -23,26 +23,28 @@ $bookpage-threshold:660px;
             @media(min-width: $bookpage-threshold)
             {
                 flex-direction: row;
-            align-items: baseline;
+                // align-items: baseline;
             }
             @media(max-width: $bookpage-threshold)
             {
                 flex-direction: column;
             }
             .text {
+                margin-left: 8px;
                 flex: 1 1 200px;
                 height: 100%;line-height:30px;
             }
 
             img {
-                height: 150px;
+                height:50vh;
                 object-fit: contain;
+                margin-bottom: 10px;
             }
         }
 .desc{
-        height: 120px;
+        // height: 120px;
         word-wrap:break-word;
-         overflow: hidden;
+        //  overflow: hidden;
     }
     }
     

@@ -26,10 +26,10 @@ function Password() {
     return(
         <div className='ChangePassword'>
             {!editPwd
-            ?<button className='ChangeButton' onClick={()=>setEditPwd(true)}>jlkj</button>
+            ?<button className='ChangeButton' onClick={()=>setEditPwd(true)}>ChangeButton</button>
             :<>
                 <div className='controls'>
-                 <label htmlFor="password">
+                 <label className='pwd' htmlFor="password">
                             Password:
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />

@@ -14,6 +14,7 @@ import Search from './Search/Search';
 import Add from './Add/Add';
 import Profile from './Profile/Profile';
 import BookPage from './Books/BookPage';
+import OfferPage from './Offer/OfferPage';
 function App() {
     return (
         <AuthProvider>
@@ -22,6 +23,7 @@ function App() {
                     <Route element={<PersistLogin />}>
                         <Route index element={<Home />} />
                         <Route path='/Book/:id' element={<BookPage/>}/>
+                        <Route path='/Offer/:id' element={<OfferPage/>}/>
                         <Route exact path='/Login' element={<Login />} />
                         <Route exact path='/Register' element={<Register />} />
                         <Route exact path='/UnAuthorized' element={<Unauthorized />} />
