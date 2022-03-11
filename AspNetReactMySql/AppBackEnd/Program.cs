@@ -25,7 +25,7 @@ builder.Services.AddCors(options=>
 builder.Services.AddDbContextPool<AppDbContext>(options =>
         {
             var connetionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            options.UseMySql(connetionString, ServerVersion.AutoDetect(connetionString));
+            options.UseLazyLoadingProxies().UseMySql(connetionString, ServerVersion.AutoDetect(connetionString));
         });
 builder.Services.AddIdentity<BiblioUser, IdentityRole>(options =>
 {
