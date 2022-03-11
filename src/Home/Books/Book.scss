@@ -6,13 +6,19 @@
     grid-template-columns: repeat(auto-fit, [col-start] minmax(350px,1fr) [col-end]);
     .book{
         width: minmax(300px,30%);
-        height: 500px;
-        flex-direction: column;
+        height: 200px;
         display: flex;
+        flex-direction: row;
+        align-items: baseline;
         background: azure;
         >.text
         {
-            height: min-content;
+            flex: 1 1 200px;
+            height: 100%;
+                overflow: hidden;
+                p{
+                    line-height:18px;
+                }
         }
         >img
         {
