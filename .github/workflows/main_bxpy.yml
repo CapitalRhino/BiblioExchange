@@ -10,10 +10,13 @@ on:
       - main
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: AspNetReactMySql/UtilityPythonServer
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
