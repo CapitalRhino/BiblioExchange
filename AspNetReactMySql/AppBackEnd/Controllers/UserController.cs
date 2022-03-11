@@ -6,6 +6,8 @@ using AppBackEnd.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Text.Json;
 
 namespace AppBackEnd.Controllers
 {
@@ -175,6 +177,34 @@ namespace AppBackEnd.Controllers
             RevokeToken(found);
             Response.Cookies.Delete("Token");
             return Ok();
+        }
+        [HttpPut]
+        [Route("Edit/Email")]
+        public async Task<ActionResult<BiblioUser>> EditEmail(string email){
+            string tokenSplit = Request.Headers["Authorization"].FirstOrDefault().Split('.')[1];
+            var json = Encoding.UTF8.GetString(Convert.FromBase64String(tokenSplit));
+            var obj = JsonSerializer.Deserialize<AuthToken>(json);
+            var user = Context.Users.FirstOrDefault(x => x.UserName == obj.Username);
+            user.Email = email;
+            if (Context.SaveChanges() == 1)
+            {
+                return Ok("Success");
+            }
+            else return BadRequest("Save error");
+        }
+        [HttpPut]
+        [Route("Edit/Phone")]
+        public async Task<ActionResult<BiblioUser>> EditPhone(string phone){
+            string tokenSplit = Request.Headers["Authorization"].FirstOrDefault().Split('.')[1];
+            var json = Encoding.UTF8.GetString(Convert.FromBase64String(tokenSplit));
+            var obj = JsonSerializer.Deserialize<AuthToken>(json);
+            var user = Context.Users.FirstOrDefault(x => x.UserName == obj.Username);
+            user.PhoneNumber = phone;
+            if (Context.SaveChanges() == 1)
+            {
+                return Ok("Success");
+            }
+            else return BadRequest("Save error");
         }
     }
 }
