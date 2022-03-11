@@ -9,9 +9,9 @@ on:
       - main
 
 env:
-  WORKING_DIRECTORY: AspNetReactMySql/appfrontend
+  WORKING_DIRECTORY: ./AspNetReactMySql/appfrontend
   AZURE_WEBAPP_NAME: 'biblioexchange'   # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: 'AspNetReactMySql/appfrontend'     # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: './AspNetReactMySql/appfrontend'     # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '14.x'                # set this to the node version to use
 
 jobs:
@@ -27,8 +27,8 @@ jobs:
         cache: 'npm'
 
     - name: npm install, build, and test
+      working-directory: "${{ env.WORKING_DIRECTORY }}"
       run: |
-        cd "${{ env.WORKING_DIRECTORY }}"
         npm install 
         npm run build --if-present
         npm run test --if-present
