@@ -8,7 +8,8 @@ function Add() {
   //0 not choose, 1 isbn, 2 title, 3 new
   const [method, setMethod] = useState(0);
   const [isNew, setisNew] = useState(false);
-  const [book, setsBook] = useState(false);
+  const [isBook, setsISBook] = useState(false);
+  const [book, setBook] = useState(null);
   const [orderDescription, setOrderDescription] = useState();
   const [price, setPrice] = useState(0);
   return (
@@ -16,29 +17,28 @@ function Add() {
       <form onSubmit={(e)=>e.preventDefault()} action="">
         <article id='methods'>
           <label htmlFor="methods">Book:</label>
-          <input type="radio" name="method" value="ISBN" onChange={() => {setMethod(1);setisNew(false)}} /><label htmlFor="ISBN">ISBN</label>
-          <input type="radio" name="method" value='Title' onChange={() => {setMethod(2);setisNew(false)}} /><label htmlFor="Title" >Title</label>
-          <input type="radio" name="method" value='New' onChange={() => {setMethod(3);setisNew(true)}} /><label htmlFor="New">New</label>
+          <input type="radio" name="method" value="ISBN" onChange={() => {setMethod(1);setisNew(false);setsISBook(false)}} /><label htmlFor="ISBN">ISBN</label>
+          <input type="radio" name="method" value='Title' onChange={() => {setMethod(2);setisNew(false);setsISBook(false)}} /><label htmlFor="Title" >Title</label>
+          <input type="radio" name="method" value='New' onChange={() => {setMethod(3);setisNew(true);setsISBook(true)}} /><label htmlFor="New">New</label>
         </article>
         {
           method !== 0
-            ? <><article>
+            ? <>
               {
-                method === 1 ? <ISBNFile/>
+                method === 1 ?<article> <ISBNFile/></article>
                   : method === 2 
-                      ?<SearchField />
+                      ?<article><SearchField /></article>
                     : (<></>)
               }
               
-            </article>
-            <article>
-              <BookForm isnew={isNew}/>
-            </article>
+            
+            {book||isBook?<article><BookForm isnew={isNew} book={book} setBook={setBook}/></article>:<></>}
             </>
             : <></>
          
         }
-        <article className='ad-form'>
+        {
+        book?<article className='ad-form'>
         <span className='textarea-span'>
             <label >Ad</label>
             <label htmlFor="description">Description:</label>
@@ -48,6 +48,8 @@ function Add() {
             <label htmlFor="price">Price:</label>
             <input  type="text" id='price' value={price}onChange={(e)=>setPrice(e.target.value)}/></span>
         </article>
+        :<></>
+        }
       </form>
     </section >
   )

@@ -168,9 +168,7 @@ const Register = () => {
                         />
                         <p id="uidnote" className={phoneFocus && phone && !validPhone ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
-                            Must begin with a letter.<br />
-                            Letters, numbers, underscores, hyphens allowed.<br />
-                            Must countain @ and .
+                            Must be valid phone number<br />
                         </p>
 
                         <label htmlFor="password">
@@ -178,7 +176,7 @@ const Register = () => {
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
                         </label>
-                        <RegisterPasswordToggle params={{password:"password",pwd:pwd,setPwd:setPwd,describedby:"pwdnote",validPwd:validPwd,setPwdFocus:setPwdFocus}}/>
+                        <RegisterPasswordToggle params={{password:"password",pwd:pwd,setPwd:setPwd,required:true,describedby:"pwdnote",validPwd:validPwd,setPwdFocus:setPwdFocus}}/>
                         <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             8 to 24 characters.<br />
@@ -192,7 +190,7 @@ const Register = () => {
                             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
                         </label>
-                        <RegisterPasswordToggle params={{password:"password",pwd:matchPwd,setPwd:setMatchPwd,describedby:"confirmnote",validPwd:validMatch,setPwdFocus:setMatchFocus}}/>
+                        <RegisterPasswordToggle params={{password:"password",pwd:matchPwd,setPwd:setMatchPwd,required:true,describedby:"confirmnote",validPwd:validMatch,setPwdFocus:setMatchFocus}}/>
                         <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Must match the first password input field.

@@ -1,20 +1,51 @@
 @import '../Styles/resets';
 $color1:#FFFBF1;
-.Profile
-{
+
+.Profile {
     width: 100%;
-    >form{
+    text-align: center;
+    >form {
         margin: 0 auto;
-    width: 90%;
-    color: black;
-    font-size: 1.3em;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    >article
-    {
-        background-color: $color1;
-        padding: 10px 0;
-    }
-   
+        width: 90%;
+        color: black;
+        font-size: 1.3em;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
+
+        >article {
+            background-color: $color1;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            .instructions {
+                font-size: 0.75rem;
+                border-radius: 0.5rem;
+                background: #000;
+                color: #fff;
+                padding: 0.25rem;
+            }
+        
+            .instructions>svg {
+                margin-right: 0.25rem;
+            }
+        
+            .offscreen {
+                position: absolute;
+                left: -9999px;
+            }
+        
+            .hide {
+                display: none;
+            }
+        
+            .valid {
+                color: limegreen;
+            }
+        
+            .invalid {
+                color: red;
+            }
+        }
+
     }
 }

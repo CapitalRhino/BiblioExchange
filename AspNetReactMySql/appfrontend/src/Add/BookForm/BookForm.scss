@@ -1,42 +1,50 @@
 @import '../../Styles/resets';
 $threshold-book-form1:440px;
+
 @mixin Font {
-        border-width: 1px;
-        padding: 5px 20px 5px 10px;
-        font-size: 0.8em;
-        font-family: 'Montserrat', sans-serif;
-    }
+    border-width: 1px;
+    padding: 5px 20px 5px 10px;
+    font-size: 0.8em;
+    font-family: 'Montserrat', sans-serif;
+}
+
 @mixin InputStylingAdd {
     >span {
         display: flex;
         justify-content: flex-start;
-        @media (max-width:$threshold-book-form1)
-        {
+
+        @media (max-width:$threshold-book-form1) {
             flex-direction: column;
         }
+
         align-items: baseline;
+
         >input[type="text"] {
-            max-width:235px; 
-            width: 90%;;
+            max-width: 235px;
+            width: 90%;
+            ;
             min-width: 100px;
             border-radius: 1em;
             margin: 20px 0 10px 0;
-            @media (max-width:$threshold-book-form1)
-        {
-            margin: 5px 0 10px 0.6rem;
-        }
+
+            @media (max-width:$threshold-book-form1) {
+                margin: 5px 0 10px 0.6rem;
+            }
+
             @include Font();
         }
-        
+
     }
-    >.textarea-span
-    {
+
+    >.textarea-span {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+
         >textarea {
-            max-width:235px; 
-            width: 90%;;
+            max-width: 235px;
+            width: 90%;
+            ;
             border-radius: 0.5rem;
             margin-left: 0.6rem;
             @include Font();
@@ -44,18 +52,37 @@ $threshold-book-form1:440px;
         }
     }
 }
+
 .BookForm {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     @include InputStylingAdd();
+
+    div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        button {
+            width: 250px;
+            font-size: 24px;
+            padding: 5px 10px;
+            background: #00B4D8;
+            border: 1px solid #00B4D8;
+            color: #fff;
+            border-radius: 50px;
+            text-align: center;
+        }
+    }
+
 }
 
 
 .ReadOnly {
     opacity: 0.5;
 
-    >input,
+    input,
     textarea {
         outline: 0;
     }

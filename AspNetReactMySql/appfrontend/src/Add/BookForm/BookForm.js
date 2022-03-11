@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import './BookForm.scss'
-function BookForm({isnew}) {
+function BookForm({isnew,book,setBook}) {
    const [title, setTitle] = useState('');
    const [author, setAuthor] = useState('');
    const [isbn, setISBN] = useState('');
@@ -15,6 +15,12 @@ function BookForm({isnew}) {
    useEffect(() => {
     setClassName(`BookForm ${isnew?'':'ReadOnly'}`)
    }, [isnew]);
+useEffect(() => {
+    if(book)
+    {
+        
+    }
+}, [book]);
   return (
     <div className={className}>
         <label >BOOK</label>
@@ -46,7 +52,7 @@ function BookForm({isnew}) {
         <span>
             <label htmlFor="publisher">Publisher:</label>
             <input readOnly={!isnew} type="text" id='publisher'value={publ}onChange={(e)=>setPubl(e.target.value)}/></span>
-        {isnew?<button>Add the Book</button>:<></>}
+        {isnew?<div><button>Add the Book</button></div>:<></>}
     </div>
   )
 }

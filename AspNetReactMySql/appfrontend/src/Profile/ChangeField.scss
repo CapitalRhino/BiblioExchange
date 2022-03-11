@@ -1,0 +1,84 @@
+@import '../Styles/AuthFont';
+$threshold-con-1:660px;
+
+.ChangeField {
+    >.controls{
+         display: flex;
+    width: 96%;
+    margin: 0 2%;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    
+    @media(min-width: $threshold-con-1) {
+        justify-content: flex-start;
+        align-items: baseline;
+    }
+
+    @media(max-width: $threshold-con-1) {
+        justify-content: center;
+        align-items: baseline;
+    }
+
+    @mixin BorderRadius {
+        @include FontProperty();
+        border-radius: 0.5rem;
+    }
+
+    input {
+        max-width: 400px;
+        width: 90%;
+        min-width: 150px;
+        padding: 0.25rem;
+        flex: 1 0 210px;
+
+        @include BorderRadius();
+    }
+
+    >label {
+        flex-shrink: 0;
+        @include FontProperty();
+        margin-right: 0.5rem;
+    }
+
+    #uidnote-mobile
+    {
+        margin-top: 5px;
+        width: 100%;
+        @media(min-width: ($threshold-con-1 + 1px)) {
+            display: none;
+         }
+    }
+    span { 
+        @media(max-width: $threshold-con-1) {
+                margin-left:  100px;
+                margin-right:  100px;
+            }
+        flex-shrink: 0;
+        button {
+            @include BorderRadius();
+               margin-top: 0.5rem;
+                margin-left: 0.5rem; 
+            @media(min-width: $threshold-con-1) {
+               
+                margin-top: 0; 
+                margin-left: 1rem;
+             }
+
+            text-align: center;
+            padding: 0.25rem;
+            
+        }
+        .cancel {
+            color: red;
+        }
+    }
+    }
+       #uidnote{
+        margin: 0 2%;
+        margin-top: 5px;
+        width: 96%;
+        @media(max-width: ($threshold-con-1)) {
+           display: none;
+        }
+    }
+}

@@ -4,7 +4,7 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import './PasswordField.scss'
 function RegisterPasswordToggle({ params }) {
     const [type, setType] = useState("password");
-    const { id, pwd, setPwd, describedby, validPwd, setPwdFocus } = params
+    const { id, pwd, setPwd,required, describedby, validPwd, setPwdFocus } = params
     return (
         <div className="PasswordField">
         <input
@@ -12,7 +12,7 @@ function RegisterPasswordToggle({ params }) {
             id={id}
             onChange={(e) => setPwd(e.target.value)}
             value={pwd}
-            required
+            required={required}
             aria-invalid={validPwd ? "false" : "true"}
             aria-describedby={describedby}
             onFocus={() => setPwdFocus(true)}
