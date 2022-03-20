@@ -28,12 +28,12 @@ function App() {
                         <Route exact path='/Register' element={<Register />} />
                         <Route exact path='/UnAuthorized' element={<Unauthorized />} />
                         <Route exact path='/Search' element={<Search />} />
-                        <Route exact path='/AddAd' element={<Add />} />
-                        <Route exact path='/Profile' element={<Profile />} />
+                       
                         <Route exact path='/Books' element={<BookList />} />
                         
                         <Route element={<RequireAuth allowedroles={['User']} />}>
-
+ <Route exact path='/AddAd' element={<Add />} />
+                        <Route exact path='/Profile' element={<Profile />} />
                         </Route>
                     </Route>
                 </Route>

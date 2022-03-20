@@ -26,7 +26,7 @@ function Password() {
     return(
         <div className='ChangePassword'>
             {!editPwd
-            ?<button className='ChangeButton' onClick={()=>setEditPwd(true)}>ChangeButton</button>
+            ?<button className='ChangeButton' onClick={()=>setEditPwd(true)}>Change Password</button>
             :<>
                 <div className='controls'>
                  <label className='pwd' htmlFor="password">
