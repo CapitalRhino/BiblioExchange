@@ -11,7 +11,7 @@ function ISBNFile({setBook}) {
             try {
                 let base64 = await fileToBase64();
                 base64 = base64.split(',')[1].replaceAll('+', '-').replaceAll('/', '_')
-                const res = await pythonAxios.get(`/barcodereader/${base64}`)
+                const res = await pythonAxios.post(`/barcodereader`,JSON.stringify({image:base64}))
                 searchIsbn = res.data.barcodedata
                 console.log(searchIsbn);
             } catch (error) {
