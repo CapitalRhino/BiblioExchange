@@ -10,17 +10,21 @@
         text-decoration: none;
 
         .book {
-    display: flex;
-    height: 200px;
+            display: flex;
+            height: 200px;
             flex-direction: row;
             align-items: baseline;
             background: azure;
+
             >.text {
                 color: black;
                 flex: 1 1 200px;
                 height: 100%;
                 overflow: hidden;
                 text-decoration: none;
+                h2,h3{
+                    text-align: center;
+                }
                 p {
                     line-height: 18px;
                 }

@@ -15,6 +15,8 @@ import Add from './Add/Add';
 import Profile from './Profile/Profile';
 import BookPage from './Books/BookPage';
 import OfferPage from './Offer/OfferPage';
+import Privacy from './Privacy/Privacy';
+import AboutUs from './AboutUs/AboutUs';
 function App() {
     return (
         <AuthProvider>
@@ -30,7 +32,8 @@ function App() {
                         <Route exact path='/Search' element={<Search />} />
                        
                         <Route exact path='/Books' element={<BookList />} />
-                        
+                        <Route exact path='/Privacy' element={<Privacy/>}/>
+                        <Route exact path='/AboutUs'element={<AboutUs/>} />
                         <Route element={<RequireAuth allowedroles={['User']} />}>
  <Route exact path='/AddAd' element={<Add />} />
                         <Route exact path='/Profile' element={<Profile />} />

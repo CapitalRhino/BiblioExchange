@@ -47,7 +47,7 @@ function OfferPage() {
                     <img src={image} alt="Not image found" />
                     <div className='text'><div>
                         <label htmlFor="price">Price:</label>
-                        <input className='price' onChange={(e)=>setPrice(e.target.value)}value={price}/>
+                        <input readOnly className='price' onChange={(e)=>setPrice(e.target.value)}value={price}/>
                     </div>
                         <div>
                             <label htmlFor="owner">Owner:</label>
@@ -58,9 +58,9 @@ function OfferPage() {
                             <label className='values'>{upload}</label>
                         </div> <div className='desc'>
                             <label htmlFor="desc">Desription:</label><br />
-                            <textarea className='description'>{desc}</textarea>
+                            <textarea readonly className='description'>{desc}</textarea>
                         </div>
-                        {
+                        {/* {
                 edit
                     ? <div className='edit-buttons'><button className='confirm' onClick={() => { UpdateOffer(); setEdit(false) }}>
                        Save<FontAwesomeIcon icon={faSave}/>
@@ -70,7 +70,7 @@ function OfferPage() {
                             </button>
                     </div>
                     : <div className='edit-buttons'><button className='edit' onClick={() => { setEdit(true) }}>Edit <FontAwesomeIcon icon={faEdit} /></button></div>
-            }
+            } */}
                     </div>
                 </div>
 

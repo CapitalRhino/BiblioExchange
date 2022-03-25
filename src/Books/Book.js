@@ -8,16 +8,15 @@ function Book({prop}) {
     const [image, setImage] = useState(prop.imageUrl);
     const [isbn, setIsbn] = useState(prop.isbn);
     const [desc, setDesc] = useState(prop.description);
-    console.log();
     return(
         <div className='book'>
             <img src={image} alt="image" />
             <div className='text'>
-                <h1>{name}</h1>
-                <h2>{author}</h2>
-                <h3>{isbn}</h3>
-                <h3>{year}</h3> 
-                <p>{desc}</p>
+                <h2>{name} ({year})</h2>
+                <h3>{author}</h3>
+                <h4>ISBN: {isbn}</h4>
+
+                <p>{desc.substring(0,190)}</p>
             </div>
             
         </div>
